@@ -1,11 +1,11 @@
 import React from 'react'
 import "../styles/listAllEvent.scss";
+import SideBar from "../components/sideBar";
 
-
-export default function listAllEvent() {
-  return (
-    <div>
-      Liste All Events 
-    </div>
+export default function ListAllEvent() {
+    return (
+        <div>
+            dsfkjsnfdj
+        </div>
   )
 }
