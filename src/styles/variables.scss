@@ -7,3 +7,15 @@ $headerHeight : 120px;
     max-width: 53.5em;
     margin: auto;
 }
+
+.page-container-client{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    .sideBar{
+        border-right: 1px solid black;
+    }
+
+    .main-container{
+        padding: 1em;
+    }
+}

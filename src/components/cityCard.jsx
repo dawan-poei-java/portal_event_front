@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../styles/villeCard.scss";
+import "../styles/cityCard.scss";
 
-export default function villeCard() {
+export default function cityCard() {
   return (
     <Link to={""}>
       <div className="img-container">
