@@ -1,6 +1,6 @@
 import React from 'react'
 import "../styles/events.scss"
-import VilleCard from '../components/villeCard'
+import CityCard from '../components/cityCard.jsx'
 
 export default function events() {
 
@@ -10,10 +10,10 @@ export default function events() {
   return (
     <section className='page-container'>
     <div className='grid gap-10'>
-    <h2>Évènements</h2>
+    <h2>Les Villes</h2>
     <div className='cards-container flex'>
     {elements.map((elements)=>{
-            return((<VilleCard/>))
+            return((<CityCard/>))
           })}
     </div>
     </div>

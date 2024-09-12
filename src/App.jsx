@@ -8,10 +8,11 @@ import { Helmet } from "react-helmet";
 import './App.css'
 import Header from './components/header'
 import Home from "./views/home";
-import Events from "./views/events";
-import EventsVille from './views/eventsVille'
+import Cities from "./views/cities";
+import City from './views/city'
 import Event from './views/event'
 import "./styles/variables.scss"
+import ProfilClient from "./views/profilClient"
 
 
 function App() {
@@ -28,10 +29,16 @@ function App() {
         <Header />
         <Routes>
           <Route index path={"/"} element={<Home/>}/>
-          <Route path={"/event"} element={<Events/>}/>
-          <Route path={"/event/:city"} element={<EventsVille/>}/>
-          <Route path={"/event/:city/:eventId"} element={<Event/>}/>
+          <Route path={"/cities"} element={<Cities/>}/>
+
+          <Route path={"/cities/:city"} element={<Cities/>}/>x
+
+          <Route path={"/cities/:city"} element={<City/>}/>x
+          <Route path={"/cities/:city/:eventId"} element={<Event/>}/>
           
+
+          {/* a modifier quand le back est fini */}
+          <Route path={"/profileclient"} element={<ProfilClient/>}/>
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>

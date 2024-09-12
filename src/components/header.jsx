@@ -32,7 +32,7 @@ export default function header() {
                 </Link>
               </li>
               <li onClick={handleToggleOpen}>
-                <Link className="nav-link" to={"/event"}>
+                <Link className="nav-link" to={"/cities"}>
                   Évènements
                 </Link>
               </li>

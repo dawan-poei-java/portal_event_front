@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import EventGrid from "../components/eventGrid";
 
 
-export default function eventsVille() {
+export default function city() {
   const { city } = useParams();
   const elements = [...Array(8)];
 
