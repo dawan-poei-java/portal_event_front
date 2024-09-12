@@ -3,6 +3,7 @@
 $headerHeight : 120px;
 
 .page-container{
+    padding-top: calc($headerHeight + 8em);
     max-width: 53.5em;
     margin: auto;
 }
