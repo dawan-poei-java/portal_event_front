@@ -1,15 +1,27 @@
-import {React, useState } from 'react'
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { faX } from "@fortawesome/free-solid-svg-icons";
-
-
+import { React, useState } from "react";
+import "../styles/home.scss";
+import EventGrid from "../components/eventGrid";
 
 export default function home() {
+  const elements = [...Array(8)];
 
-    
+
   return (
-    <div className='text-3xl font-bold underline'>home</div>
-  )
+    <>
+      <section className="page-container">
+        <div className="grid">
+          <div className="mt-30">
+            <h2>À la une</h2>
+            <img src="https://placehold.co/856x295" alt="" />
+          </div>
+          <div>
+            <EventGrid 
+            title={"Prochainement"}
+            listeElement={elements} 
+            />
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }

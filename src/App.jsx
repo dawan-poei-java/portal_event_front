@@ -11,6 +11,7 @@ import Home from "./views/home";
 import Events from "./views/events";
 import EventsVille from './views/eventsVille'
 import Event from './views/event'
+import "./styles/variables.scss"
 
 
 function App() {
