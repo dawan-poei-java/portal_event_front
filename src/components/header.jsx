@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import "../styles/header.scss";
+import { isAuthenticated } from "../utils/authUtils";
 
 export default function header() {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
@@ -39,11 +40,13 @@ export default function header() {
                     Contact
                   </Link>
                 </li>
-                <li onClick={handleToggleOpen}>
-                  <Link className="nav-link" to={"/login"}>
-                    Login
-                  </Link>
-                </li>
+                {!isAuthenticated() && (
+                  <li onClick={handleToggleOpen}>
+                    <Link className="nav-link" to={"/login"}>
+                      Login
+                    </Link>
+                  </li>
+                )}
               </ul>
             </nav>
             {isToggleOpen ? (
