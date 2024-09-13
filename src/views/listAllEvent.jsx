@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
 import "../styles/listAllEvent.scss";
-import SideBar from "../components/sideBar";
+import EventGrid from "../components/eventGrid";
 
 export default function ListAllEvent() {
-    return (
-        <div>
-            dsfkjsnfdj
-        </div>
-  )
+  const allEvents = [...Array(20)];
+  return (
+    <>
+      <section className="page-container">
+        <h2>Tout les évènements</h2>
+        <EventGrid listeElement={allEvents} />
+      </section>
+    </>
+  );
 }

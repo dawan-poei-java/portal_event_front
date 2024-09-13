@@ -33,6 +33,7 @@ function App() {
           <Route path={"/profileclient"} element={<ProfilClient />} />
           <Route path={"/reservation"} element={<ReservationClient />} />
           <Route path={"/eventOrga"} element={<ListEventOrga />} />
+          <Route path={"/allEvents"} element={<ListAllEvent />} />
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>

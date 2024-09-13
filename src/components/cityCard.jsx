@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/cityCard.scss";
 
-export default function cityCard() {
+export default function CityCard() {
   return (
     <Link to={""}>
       <div className="img-container">
