@@ -6,7 +6,7 @@ export default function eventGrid(args) {
   return (
     <>
       <h2>{args.title}</h2>
-      <div className="flex flex-warp warp event-container-soon w-full">
+      <div className="flex flex-warp warp event-container-soon w-full justify-between">
         {args.listeElement.map((element) => {
           return <EventCard />;
         })}
