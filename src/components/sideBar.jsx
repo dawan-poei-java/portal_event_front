@@ -2,7 +2,7 @@ import React from 'react'
 
 
 
-export default function sideBar(args) {
+export default function SideBar(args) {
     const listButton = args.listButton;
     return (
 

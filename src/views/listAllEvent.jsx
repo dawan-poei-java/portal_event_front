@@ -1,12 +1,13 @@
 import React from "react";
+import "../styles/home.scss";
 import "../styles/listAllEvent.scss";
-import EventGrid from "../components/eventGrid";
+import EventCard from "../components/eventCard"
 
 export default function ListAllEvent() {
   const allEvents = [...Array(20)];
   return (
     <>
-      <section className="page-container">
+      <section className="page-container-allEvent">
         <h2>Tout les évènements</h2>
         <div className="flex justify-between ">
           <input
@@ -24,8 +25,12 @@ export default function ListAllEvent() {
             </button>
           </div>
         </div>
+        <div className="flex flex-warp warp event-container-soon justify-between">
 
-        <EventGrid listeElement={allEvents} />
+        {allEvents.map((e)=>{
+          return <EventCard/>
+        })}
+        </div>
       </section>
     </>
   );

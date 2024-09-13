@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import "../styles/listAllEvent.scss";
 import "../styles/home.scss";
 import EventGrid from "../components/eventGrid";
 
