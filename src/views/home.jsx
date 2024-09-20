@@ -119,7 +119,6 @@ export default function home() {
   ];
 
 
-
   return (
     <>
       <section className="page-container">
@@ -129,10 +128,7 @@ export default function home() {
             <img src="https://placehold.co/856x295" alt="" />
           </div>
           <div>
-            <EventGrid 
-            title={"Prochainement"}
-            listeElement={elements} 
-            />
+            <EventGrid title={"Prochainement"} listeElement={elements} />
           </div>
         </div>
       </section>
