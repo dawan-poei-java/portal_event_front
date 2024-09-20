@@ -26,8 +26,7 @@ function App() {
         <Routes>
           <Route index path={"/"} element={<Home />} />
           <Route path={"/cities"} element={<Cities />} />
-          <Route path={"/cities/:city"} element={<Cities />} />x
-          <Route path={"/cities/:city"} element={<City />} />x
+          <Route path={"/cities/:city"} element={<City />} />
           <Route path={"/cities/:city/:eventId"} element={<Event />} />
           {/* a modifier quand le back est fini */}
           <Route path={"/profileclient"} element={<ProfilClient />} />

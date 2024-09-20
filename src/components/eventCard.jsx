@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/eventCard.scss";
-export default function EventCard(event) {
+export default function EventCard({event}) {
   return (
     <Link to={""}>
       <div className="card-img-container">
