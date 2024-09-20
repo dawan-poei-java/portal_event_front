@@ -1,0 +1,16 @@
+@import "./variables.scss";
+
+.page-container-allEvent {
+  
+  padding-top: calc($headerHeight + 8em);
+    margin: auto;
+  max-width: 74.313em;
+  .event-container-soon {
+    max-width: 100%;
+  }
+}
+
+.card-img-container{
+  width: 222px;
+  
+}

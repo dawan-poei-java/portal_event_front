@@ -7,12 +7,22 @@ $headerHeight : 120px;
     max-width: 53.5em;
     margin: auto;
 }
+.page-container-profile{
+    //padding-top: calc($headerHeight + 8em);
+    max-width: 53.5em;
+    margin: auto;
+}
 
 .page-container-client{
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 5fr;
+    height: 100vh;
     .sideBar{
+        padding: 1em;
         border-right: 1px solid black;
+        padding-top: calc(432px - 16em);
+        padding-right: 30px;
+        
     }
 
     .main-container{

@@ -1,12 +1,18 @@
-import React from "react";
+import {React, useState} from "react";
 import { Link } from "react-router-dom";
 import "../styles/cityCard.scss";
 
-export default function cityCard() {
+
+
+
+export default function CityCard({ name, thumbnail }) {
+const [isHovered, setIsHovered] = useState(false)
+
   return (
-    <Link to={""}>
-      <div className="img-container">
-        <img src="https://placehold.co/200x150" alt="" />
+    <Link to={"/cities/"+ name.toLowerCase()}>
+      <div  className="img-container" onMouseEnter={()=> setIsHovered(true)} onMouseLeave={()=>setIsHovered(false)}>
+        <h2 className="card-title">{name}</h2>
+        <img draggable className={isHovered ? "thumbnail-hovered" : "thumbnail"} src={thumbnail} alt=""></img>
       </div>
     </Link>
   );
