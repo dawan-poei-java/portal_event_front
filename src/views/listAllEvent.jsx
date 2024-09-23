@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/listAllEvent.scss";
 import EventGrid from "../components/eventGrid";
 
 export default function ListAllEvent() {
-  const allEvents = [...Array(20)];
+  const allEvents = [
+    { id: 1, title: "Événement 1", category: "Spectacle" },
+    { id: 2, title: "Événement 2", category: "Concert" },
+    { id: 3, title: "Événement 3", category: "Exposition" },
+  ];
+
+  const [selectedCategory, setSelectedCategory] = useState("Tout");
+
+  const filteredEvents =
+    selectedCategory === "Tout"
+      ? allEvents
+      : allEvents.filter((event) => event.category === selectedCategory);
+
   return (
     <>
       <section className="page-container">
@@ -16,16 +28,34 @@ export default function ListAllEvent() {
             name="Search"
           />
           <div className="flex gap-2">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-              Filtre
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              onClick={() => setSelectedCategory("Spectacle")}
+            >
+              Spectacle
             </button>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full  ">
-              Trier par
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              onClick={() => setSelectedCategory("Concert")}
+            >
+              Concert
+            </button>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              onClick={() => setSelectedCategory("Exposition")}
+            >
+              Exposition
+            </button>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              onClick={() => setSelectedCategory("Tout")}
+            >
+              Tout
             </button>
           </div>
         </div>
 
-        <EventGrid listeElement={allEvents} />
+        <EventGrid listeElement={filteredEvents} />
       </section>
     </>
   );
