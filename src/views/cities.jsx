@@ -91,7 +91,7 @@ export default function events() {
     <section className="page-container">
       <div className="grid gap-10">
         <h2>Les Villes</h2>
-        <div className="cards-container flex">
+        <div className="cards-container flex ">
           {elements.sort((a,b)=>b.nb_events-a.nb_events).map((elements) => {
             return <CityCard name={elements.city} thumbnail={elements.image} />;
           })}
