@@ -9,12 +9,16 @@ import City from "./views/city";
 import Event from "./views/event";
 import "./styles/variables.scss";
 import ProfilClient from "./views/profilClient";
+
 import ListAllEvent from "./views/listAllEvent";
 import ReservationClient from "./views/reservationClient";
 import ListEventOrga from "./views/listEventOrga";
 import NotFound from "./views/notFound";
 import Contact from "./views/contact";
 import Footer from "./components/footer";
+
+
+import Auth from "./views/auth";
 
 
 function App() {
@@ -31,6 +35,7 @@ function App() {
           <Route index path={"/"} element={<Home />} />
           <Route path="*" element={<NotFound/>}/>
           <Route path={"/cities"} element={<Cities />} />
+
           <Route path={"/cities/:city"} element={<City />} />
           <Route path={"/cities/:city/:eventId"} element={<Event />} />
           <Route path={"/contact"} element={<Contact/>} />
@@ -39,6 +44,9 @@ function App() {
           <Route path={"/reservation"} element={<ReservationClient />} />
           <Route path={"/eventOrga"} element={<ListEventOrga />} />
           <Route path={"/allEvents"} element={<ListAllEvent />} />
+
+          <Route path={"/login"} element={<Auth />} />
+
         </Routes>
         <Footer />
       </BrowserRouter>
