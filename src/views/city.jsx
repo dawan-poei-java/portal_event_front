@@ -126,7 +126,8 @@ export default function city() {
         <div>
             <EventGrid 
             title={"Prochainement"}
-            listeElement={elements} 
+            listeElement={elements}
+            size ={8} 
             />
           </div>
           <div>

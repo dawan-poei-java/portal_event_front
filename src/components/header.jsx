@@ -1,9 +1,9 @@
 import {React, useState } from 'react'
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { faX } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faX,faUser} from "@fortawesome/free-solid-svg-icons";
 import "../styles/header.scss"
+
 
 export default function header() {
 
@@ -39,6 +39,11 @@ export default function header() {
               <li onClick={handleToggleOpen}>
                 <Link className="nav-link" to={"/contact"}>
                   Contact
+                </Link>
+              </li>
+              <li onClick={handleToggleOpen}>
+                <Link className="nav-link" to={"/profileClient"}>
+                  <FontAwesomeIcon icon={faUser}/>
                 </Link>
               </li>
             </ul>
