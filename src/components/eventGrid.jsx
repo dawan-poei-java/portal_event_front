@@ -1,15 +1,15 @@
 import React from "react";
-import EventCard from "./eventCard";
+import EventCardHome from "./eventCardHome";
 
-export default function eventGrid(args) {
-  console.log(args.title);
+export default function eventGrid({ title, listeElement,size }) {
   return (
     <>
-      <h2>{args.title}</h2>
-      <div className="flex flex-warp warp event-container-soon w-full justify-between">
-        {args.listeElement.map((element) => {
-          return <EventCard />;
-        })}
+      <h2>{title}</h2>
+      <div className="grid event-container-soon">
+        {listeElement !== undefined &&
+          listeElement.slice(0, size).map((event) => {
+            return <EventCardHome event={event} />;
+          })}
       </div>
     </>
   );
