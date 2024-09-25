@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faX,faUser, faCartShopping} from "@fortawesome/free-solid-svg-icons";
 import "../styles/header.scss";
-import { isAuthenticated } from "../utils/authUtils";
+import { useAuth } from "../context/authProvider";
 
 
 export default function header() {
+  const { isAuthenticated } = useAuth();
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const handleToggleOpen = () => {
     setIsToggleOpen(!isToggleOpen);
@@ -40,10 +41,16 @@ export default function header() {
                     Contact
                   </Link>
                 </li>
-                {!isAuthenticated() && (
+                {!isAuthenticated ? (
                   <li onClick={handleToggleOpen}>
                     <Link className="nav-link" to={"/login"}>
                       Login
+                    </Link>
+                  </li>
+                ) : (
+                  <li onClick={handleToggleOpen}>
+                    <Link className="nav-link" to={"/profileclient"}>
+                      Profile
                     </Link>
                   </li>
                 )}

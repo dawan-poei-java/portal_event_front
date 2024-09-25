@@ -1,4 +1,9 @@
-export const isAuthenticated = () => {
-  // Vérifiez la présence du token dans localStorage
-  return !!localStorage.getItem("token");
+export const isTokenExpired = () => {
+  const expiration = localStorage.getItem("expiresAt");
+
+  if (!expiration) {
+    return true;
+  } else {
+    return new Date(expiration) < new Date();
+  }
 };

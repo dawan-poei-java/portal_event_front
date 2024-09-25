@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles/auth.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authProvider";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
@@ -10,6 +11,8 @@ export default function Auth() {
   const [lastName, setLastName] = useState("");
   const [form, setForm] = useState("login");
   const navigate = useNavigate();
+
+  const { login, register } = useAuth();
 
   const changeEmail = (e) => {
     setEmail(e.target.value);
@@ -25,25 +28,18 @@ export default function Auth() {
   };
 
   // Next step: Store token in local storage and make sure all useful data is stored in token
-  const login = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     console.log("Login : " + email + " " + password);
-    authRequest("login", {
-      email: email,
-      password: password,
-    });
+    login(email, password);
+    navigate("/");
   };
 
-  const register = (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
     console.log("register");
-    authRequest("register", {
-      email: email,
-      password: password,
-      firstName: firstName,
-      lastName: lastName,
-      userRole: "USER",
-    });
+    register(email, password, firstName, lastName);
+    navigate("/");
   };
 
   const authRequest = async (url, data) => {
@@ -95,7 +91,7 @@ export default function Auth() {
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form
               className="space-y-6"
-              onSubmit={form == "login" ? login : register}
+              onSubmit={form == "login" ? handleLogin : handleRegister}
             >
               <div>
                 <label className="block text-sm font-medium leading-6 text-gray-900">
