@@ -1,10 +1,10 @@
 import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { faX } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faX,faUser} from "@fortawesome/free-solid-svg-icons";
 import "../styles/header.scss";
 import { isAuthenticated } from "../utils/authUtils";
+
 
 export default function header() {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
@@ -47,7 +47,12 @@ export default function header() {
                     </Link>
                   </li>
                 )}
-              </ul>
+                <li onClick={handleToggleOpen}>
+                <Link className="nav-link" to={"/profileClient"}>
+                  <FontAwesomeIcon icon={faUser}/>
+                </Link>
+              </li>
+            </ul>
             </nav>
             {isToggleOpen ? (
               <div className="menu-toggle" onClick={handleToggleOpen}>

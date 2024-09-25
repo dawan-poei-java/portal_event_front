@@ -13,6 +13,10 @@ import ProfilClient from "./views/profilClient";
 import ListAllEvent from "./views/listAllEvent";
 import ReservationClient from "./views/reservationClient";
 import ListEventOrga from "./views/listEventOrga";
+import NotFound from "./views/notFound";
+import Contact from "./views/contact";
+import Footer from "./components/footer";
+
 
 import Auth from "./views/auth";
 
@@ -29,10 +33,12 @@ function App() {
         <Header />
         <Routes>
           <Route index path={"/"} element={<Home />} />
+          <Route path="*" element={<NotFound/>}/>
           <Route path={"/cities"} element={<Cities />} />
 
           <Route path={"/cities/:city"} element={<City />} />
           <Route path={"/cities/:city/:eventId"} element={<Event />} />
+          <Route path={"/contact"} element={<Contact/>} />
           {/* a modifier quand le back est fini */}
           <Route path={"/profileclient"} element={<ProfilClient />} />
           <Route path={"/reservation"} element={<ReservationClient />} />
@@ -42,7 +48,7 @@ function App() {
           <Route path={"/login"} element={<Auth />} />
 
         </Routes>
-        {/* <Footer /> */}
+        <Footer />
       </BrowserRouter>
     </>
   );
