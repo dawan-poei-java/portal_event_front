@@ -1,0 +1,32 @@
+#cart-page{
+    max-width: 80%;
+}
+.split{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    .item-list{
+        border-right: 1px solid #e5e7eb;
+        width: 65%;
+        .cart-item{
+            background-color: #e1e1e1;
+            padding: 2em;
+        }
+    }
+}
+.cart-sidebar{
+    max-width: 759px;
+    // width: 100%;
+}
+.visiteur-input{
+    display: flex;
+    flex-wrap: wrap;
+    div{
+        width: 31%;
+        flex-shrink:1;
+    }
+    
+}
+.info-hidden{
+    display: none;
+}

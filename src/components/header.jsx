@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faX,faUser} from "@fortawesome/free-solid-svg-icons";
+import { faBars, faX,faUser, faCartShopping} from "@fortawesome/free-solid-svg-icons";
 import "../styles/header.scss";
 import { isAuthenticated } from "../utils/authUtils";
 
@@ -50,6 +50,11 @@ export default function header() {
                 <li onClick={handleToggleOpen}>
                 <Link className="nav-link" to={"/profileClient"}>
                   <FontAwesomeIcon icon={faUser}/>
+                </Link>
+              </li>
+                <li onClick={handleToggleOpen}>
+                <Link className="nav-link" to={"/cart"}>
+                  <FontAwesomeIcon icon={faCartShopping}/>
                 </Link>
               </li>
             </ul>
