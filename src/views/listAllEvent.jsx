@@ -1,9 +1,8 @@
-
-
 import "../styles/home.scss";
 import React, { useState } from "react";
 import "../styles/listAllEvent.scss";
-import EventCard from "../components/eventCard"
+import EventCard from "../components/eventCard";
+import EventGrid from "../components/eventGrid";
 
 export default function ListAllEvent() {
   const allEvents = [
@@ -58,14 +57,12 @@ export default function ListAllEvent() {
           </div>
         </div>
         <div className="flex flex-warp warp event-container-soon justify-between">
-
-        {allEvents.map((e)=>{
-          return <EventCard/>
-        })}
+          {allEvents.map((e) => {
+            return <EventCard />;
+          })}
         </div>
 
         <EventGrid listeElement={filteredEvents} />
-
       </section>
     </>
   );
