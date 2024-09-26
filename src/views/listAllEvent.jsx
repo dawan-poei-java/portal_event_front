@@ -1,5 +1,3 @@
-
-
 import "../styles/home.scss";
 import React, { useState } from "react";
 import "../styles/listAllEvent.scss";
@@ -59,14 +57,12 @@ export default function ListAllEvent() {
           </div>
         </div>
         <div className="flex flex-warp warp event-container-soon justify-between">
-
-        {allEvents.map((e)=>{
-          return <EventCard/>
-        })}
+          {allEvents.map((e) => {
+            return <EventCard />;
+          })}
         </div>
 
         <EventGrid listeElement={filteredEvents} />
-
       </section>
     </>
   );
