@@ -16,34 +16,47 @@ export default function Cart() {
   function handleChange(e) {
     setInputValue(e.target.value);
   }
+  function handleDelete(e) {
+    const updateItems = cartItems.filter(
+      (item) => item.id !== parseInt(e.target.value)
+    );
+    setCartItems(updateItems);
+  }
 
-  function deleteDiscount(){
-    setSelectedDiscountCode()
-    setCartFinalPrice(cartPrice)
+  function deleteDiscount() {
+    setSelectedDiscountCode();
+    setCartFinalPrice(cartPrice);
   }
 
   function handleDiscountCode() {
     let codefound = discountCode.find(
       (code) => code.name === inputValue.toLocaleUpperCase()
     );
-    if (codefound !== undefined) {
-      setSelectedDiscountCode(codefound);
-      setInvalidCode(false);
-      setInputValue("");
-      setCartFinalPrice(cartPrice - (cartPrice * codefound.discount) / 100);
+    if (codefound) {
+      setSelectedDiscountCode(codefound); // Mémorise le code sélectionné
+      setInvalidCode(false); // Pas d'erreur, le code est valide
+      setInputValue(""); // Réinitialise le champ de saisie
     } else {
-      setInvalidCode(true);
+      setInvalidCode(true); // Affiche l'erreur si le code est invalide
     }
   }
 
 
   useEffect(() => {
-    let sum =
-      cartItems !== undefined &&
-      cartItems.reduce((sum, event) => sum + event.price, 0);
-    setCartPrice(sum);
-    setCartFinalPrice(sum);
-  }, [cartItems]);
+    if (cartItems) {
+      let sum = cartItems.reduce((acc, item) => acc + item.price, 0); // Somme des prix des items
+
+      setCartPrice(sum); // Mets à jour le prix total du panier
+
+      // Si un code promo est sélectionné, applique la réduction
+      if (selectedDiscountCode) {
+        let discountedPrice = sum - (sum * selectedDiscountCode.discount) / 100;
+        setCartFinalPrice(discountedPrice > 0 ? discountedPrice : 0); // S'assure que le prix ne soit pas négatif
+      } else {
+        setCartFinalPrice(sum); // Si pas de code promo, le prix final est égal au prix total
+      }
+    }
+  }, [cartItems, selectedDiscountCode]); // Exécute à chaque changement de cartItems ou selectedDiscountCode
 
   useEffect(() => {
     setCartItems([
@@ -74,7 +87,7 @@ export default function Cart() {
         <div className="item-list p-4 flex flex-col gap-4">
           {cartItems != undefined &&
             cartItems.map((item) => {
-              return <CartItem items={item} />;
+              return <CartItem items={item} handleDelete={handleDelete} />;
             })}
         </div>
         <div className="cart-sidebar flex flex-col gap-4">
@@ -98,7 +111,7 @@ export default function Cart() {
               {selectedDiscountCode != undefined && (
                 <div className="flex justify-between">
                   <div className="flex gap-4 items-center">
-                    <FontAwesomeIcon icon={faX} onClick={deleteDiscount}/>
+                    <FontAwesomeIcon icon={faX} onClick={deleteDiscount} />
                     <p>{selectedDiscountCode.name}</p>
                   </div>
                   <p>-{selectedDiscountCode.discount} %</p>
@@ -107,7 +120,7 @@ export default function Cart() {
             </div>
             <div className="flex justify-between">
               <h5 className="font-bold">Total</h5>
-              <p>{cartFinalPrice && cartFinalPrice.toFixed(2)} €</p>
+              <p>{selectedDiscountCode ?cartFinalPrice.toFixed(2): cartPrice} €</p>
             </div>
             <div>
               <p className={invalidCode ? "text-red-500" : "hidden"}>

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
-export default function CartItem({items}) {
+export default function CartItem({items, handleDelete}) {
   const [isTogle, setIsToggle] = useState(false);
 
   function openInformation() {
     if(!isTogle){setIsToggle(true);}else{setIsToggle(false)}
   }
+  
   return (
     <>
       <div key={items.id} className="cart-item">
@@ -19,7 +20,7 @@ export default function CartItem({items}) {
           <button onClick={openInformation} className="text-start w-fit">
             Saisir les informations
           </button>
-          <button onClick={openInformation} className="text-start w-fit text-red-500">
+          <button value={items.id} onClick={handleDelete} className="text-start w-fit text-red-400">
             supprimer
           </button>
           </div>
