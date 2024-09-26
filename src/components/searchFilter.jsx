@@ -1,35 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Exemple de données d'événements
-const eventsData = [
-  {
-    id: 1,
-    title: "Concert de Jazz",
-    description: "Un super concert de Jazz au centre-ville.",
-  },
-  {
-    id: 2,
-    title: "Conférence Tech",
-    description: "Une conférence sur les dernières tendances technologiques.",
-  },
-  {
-    id: 3,
-    title: "Atelier de Peinture",
-    description: "Un atelier créatif pour débutants et amateurs de peinture.",
-  },
-  {
-    id: 4,
-    title: "Exposition d'Art Moderne",
-    description: "Une exposition de peintures modernes dans la galerie d'art.",
-  },
-  {
-    id: 5,
-    title: "Match de Football",
-    description: "Un match de football entre deux équipes locales.",
-  },
-];
 
-const EventSearch = () => {
+const EventSearch = ({ eventsData, onFilter }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredEvents, setFilteredEvents] = useState(eventsData);
 
@@ -39,15 +12,18 @@ const EventSearch = () => {
     setSearchTerm(value);
 
     // Filtrage des événements en fonction du mot-clé saisi
-    const filtered = eventsData.filter(
-      (event) =>
-        event.title.toLowerCase().includes(value) ||
-        event.description.toLowerCase().includes(value)
-    );
 
-    setFilteredEvents(filtered);
+    //setFilteredEvents(filtered);
   };
 
+  useEffect(() => {
+    const filtered = eventsData.filter(
+      (event) =>
+        event.title.toLowerCase().includes(searchTerm) ||
+        event.description.toLowerCase().includes(searchTerm)
+    );
+    onFilter(filtered);
+  }, [eventsData, searchTerm]);
   return (
     <div>
       <h1>Recherche d'événements</h1>
