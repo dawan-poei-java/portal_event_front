@@ -1,7 +1,7 @@
 import "../styles/home.scss";
 import React, { useState } from "react";
 import "../styles/listAllEvent.scss";
-import EventCard from "../components/eventCard";
+import EventCard from "../components/eventCard"
 import EventGrid from "../components/eventGrid";
 
 export default function ListAllEvent() {
