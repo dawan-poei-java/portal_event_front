@@ -10,7 +10,7 @@ export default function EventCardHome({ event }) {
   const date =event.date
   image = "https:/placehold.co/300x300";
   return (
-    <Link to={""} className="card">
+    <Link to={'/cities/'+event.city+'/'+event.id} className="card">
 
         <div class="card-event">
           <div class="content">

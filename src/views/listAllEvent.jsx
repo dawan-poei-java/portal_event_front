@@ -1,7 +1,7 @@
 import "../styles/home.scss";
 import React, { useCallback, useState } from "react";
 import "../styles/listAllEvent.scss";
-import EventCard from "../components/eventCard";
+import EventCard from "../components/eventCard"
 import EventGrid from "../components/eventGrid";
 import SearchFilter from "../components/searchFilter";
 
