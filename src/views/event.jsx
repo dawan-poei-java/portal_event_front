@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import "../styles/event.scss";
 
 export default function event() {
   const { eventId } = useParams();
   const guest = [];
-  const image = "https://placehold.co/1440x400";
+  const image = [
+    "https://placehold.co/1920x1080",
+    "https://placehold.co/1920x1081",
+    "https://placehold.co/1920x1082",
+  ];
+  const [selectedImg, setSelectedImg] = useState(0);
+
+  function changeImgUp() {
+    if (selectedImg === image.length - 1) {
+      setSelectedImg(0);
+    } else {
+      setSelectedImg(selectedImg + 1);
+    }
+  }
+  function changeImgDown() {
+    if (selectedImg <= 0) {
+      setSelectedImg(image.length - 1);
+    } else {
+      setSelectedImg(selectedImg - 1);
+    }
+  }
 
   const passes = [
     { id: 1, name: "Pass VIP", price: 150 },
@@ -13,12 +35,27 @@ export default function event() {
     { id: 3, name: "Pass Étudiant", price: 50 },
   ];
 
-
   return (
     <>
-      <div className="event-banner">
-        <img src={image} alt="banner" />
+      <div className="blank"></div>
+      {image.length>0 && (
+
+      <div
+        className="event-banner"
+        style={{ backgroundImage: `url(${image[selectedImg]})` }}
+      >
+        {image.length>1 && (
+          <>
+        <div className="bg-white p-1 rounded-full" onClick={changeImgDown}>
+          <FontAwesomeIcon className="-rotate-90 fa-2xl " icon={faChevronUp} />
+        </div>
+        <div className="bg-white p-1 rounded-full" onClick={changeImgUp}>
+          <FontAwesomeIcon className="rotate-90 fa-2xl" icon={faChevronUp} />
+        </div>
+          </>
+        )}
       </div>
+      )}
       <section id="event" className="page-container flex flex-col gap-10">
         <div>
           <div>
@@ -66,16 +103,20 @@ export default function event() {
           </p>
         </div>
         <div className="flex gap-4">
-          {guest.length>0 && (
+          {guest.length > 0 && (
             <div className="w-full">
               <h3>Guests</h3>
-              <div className="border rounded p-5">{guest.map((g)=><p>{g}</p>)}</div>
+              <div className="border rounded p-5">
+                {guest.map((g) => (
+                  <p>{g}</p>
+                ))}
+              </div>
             </div>
           )}
           <div className="pricing-container">
             <h3>Billeterie</h3>
             <div className="border rounded p-5 flex flex-col gap-2">
-              {passes.map((pass)=>{
+              {passes.map((pass) => {
                 return (
                   <div
                     key={pass.id}
@@ -92,11 +133,29 @@ export default function event() {
         </div>
         <div>
           <h3>Prestations</h3>
-          <div><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim quibusdam consequuntur rerum cum fugit, error similique. Voluptas incidunt explicabo beatae at vel, tenetur commodi? Magnam illo blanditiis animi rerum.
-          Quia deleniti aut voluptates, dolor quibusdam deserunt asperiores. Pariatur vero natus aperiam repellat animi ullam! Ducimus eius totam odit animi veritatis ipsa tenetur sit? Libero animi similique fugit repellendus itaque?
-          Earum quis eos assumenda inventore omnis architecto adipisci impedit veniam, fugit hic nulla repellendus laboriosam. Repellendus dolores quo sint voluptatibus culpa quae, nihil dignissimos, dolore vitae, nostrum repudiandae distinctio quas.
-          Laudantium, asperiores ex impedit architecto obcaecati inventore voluptas eligendi deleniti amet adipisci hic totam illo vel doloremque, porro molestias nulla nobis! Neque fugiat quasi, nemo ex provident culpa in soluta?
-          Tempora molestias ullam quibusdam aut quasi ab amet earum maxime temporibus consectetur laborum, cum iste eligendi exercitationem dolore dolorem officia quod ad commodi dolor natus repellendus impedit laudantium aspernatur. Officiis!</p></div>
+          <div>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Laudantium enim quibusdam consequuntur rerum cum fugit, error
+              similique. Voluptas incidunt explicabo beatae at vel, tenetur
+              commodi? Magnam illo blanditiis animi rerum. Quia deleniti aut
+              voluptates, dolor quibusdam deserunt asperiores. Pariatur vero
+              natus aperiam repellat animi ullam! Ducimus eius totam odit animi
+              veritatis ipsa tenetur sit? Libero animi similique fugit
+              repellendus itaque? Earum quis eos assumenda inventore omnis
+              architecto adipisci impedit veniam, fugit hic nulla repellendus
+              laboriosam. Repellendus dolores quo sint voluptatibus culpa quae,
+              nihil dignissimos, dolore vitae, nostrum repudiandae distinctio
+              quas. Laudantium, asperiores ex impedit architecto obcaecati
+              inventore voluptas eligendi deleniti amet adipisci hic totam illo
+              vel doloremque, porro molestias nulla nobis! Neque fugiat quasi,
+              nemo ex provident culpa in soluta? Tempora molestias ullam
+              quibusdam aut quasi ab amet earum maxime temporibus consectetur
+              laborum, cum iste eligendi exercitationem dolore dolorem officia
+              quod ad commodi dolor natus repellendus impedit laudantium
+              aspernatur. Officiis!
+            </p>
+          </div>
         </div>
       </section>
     </>

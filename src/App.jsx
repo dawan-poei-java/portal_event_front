@@ -19,9 +19,12 @@ import Footer from "./components/footer";
 
 
 import Auth from "./views/auth";
+
+import Cart from "./views/cart";
 import Logout from "./components/logout";
 
 import { authProvider as AuthProvider } from "./context/authProvider";
+
 
 
 function App() {
@@ -48,10 +51,11 @@ function App() {
             <Route path={"/reservation"} element={<ReservationClient />} />
             <Route path={"/eventOrga"} element={<ListEventOrga />} />
             <Route path={"/allEvents"} element={<ListAllEvent />} />
+            <Route path={"/cart"} element={<Cart/>} />
             <Route path={"/login"} element={<Auth />} />
             <Route path="/logout" element={<Logout />} />
           </Routes>
-          {/* <Footer /> */}
+          <Footer />
         </BrowserRouter>
       </AuthProvider>
     </>

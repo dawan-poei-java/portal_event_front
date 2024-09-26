@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function ReservationPopup({ e, setPopup }) {
 
@@ -39,13 +40,10 @@ export default function ReservationPopup({ e, setPopup }) {
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque
             distinctio quasi velit sequi aperiam voluptate harum! Ipsum minus
             laboriosam laborum assumenda cumque. Voluptates maiores consectetur
-            ex distinctio voluptas recusandae veritatis! Explicabo, ea. Eos
-            necessitatibus reprehenderit maiores quo velit dolore voluptatum?
-            Aperiam quasi ad incidunt qui consequatur, eveniet, repudiandae
-            dolores cumque ipsa iusto recusandae eius impedit doloremque maiores
-            officia facere facilis.
+            ex distinctio voluptas recusandae veritatis! 
           </p>
         </div>
+        <Link>Voir l'event</Link>
         <hr />
         <div>
           <p>reservation : </p>
