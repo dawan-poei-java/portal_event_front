@@ -14,9 +14,15 @@ export default function CartItem({items}) {
           <h5>{items.price}€</h5>
         </div>
         <div className="visiteur flex flex-col gap-5">
+          <div className="flex justify-between">
+
           <button onClick={openInformation} className="text-start w-fit">
             Saisir les informations
           </button>
+          <button onClick={openInformation} className="text-start w-fit text-red-500">
+            supprimer
+          </button>
+          </div>
           <div className={isTogle ? "info":"info-hidden"}>
             <hr />
             <div className="visiteur-input gap-6">

@@ -55,7 +55,7 @@ function App() {
             <Route path={"/login"} element={<Auth />} />
             <Route path="/logout" element={<Logout />} />
           </Routes>
-          {/* <Footer /> */}
+          <Footer />
         </BrowserRouter>
       </AuthProvider>
     </>

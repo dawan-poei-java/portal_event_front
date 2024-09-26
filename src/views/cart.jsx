@@ -124,7 +124,7 @@ export default function Cart() {
                 />
                 <button
                   onClick={handleDiscountCode}
-                  className="apply-discount rounded-full bg-black text-white w-3/12 px-2 py-1"
+                  className="apply-discount rounded-full w-fit bg-black text-white w-3/12 px-3 py-1"
                 >
                   Appliquer
                 </button>
