@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/cities.scss";
 import CityCard from "../components/cityCard.jsx";
+import { Link } from "react-router-dom";
 
 export default function events() {
   const elements = [
@@ -86,15 +87,22 @@ export default function events() {
     },
   ];
 
-
   return (
     <section className="page-container">
       <div className="grid gap-10">
-        <h2>Les Villes</h2>
+        <div className="flex items-center justify-between">
+          <h2>Les Villes</h2>
+          <Link to={"/allEvents/"}>Voir tout les événements</Link>
+        </div>
+
         <div className="cards-container flex ">
-          {elements.sort((a,b)=>b.nb_events-a.nb_events).map((elements) => {
-            return <CityCard name={elements.city} thumbnail={elements.image} />;
-          })}
+          {elements
+            .sort((a, b) => b.nb_events - a.nb_events)
+            .map((elements) => {
+              return (
+                <CityCard name={elements.city} thumbnail={elements.image} />
+              );
+            })}
         </div>
       </div>
     </section>
