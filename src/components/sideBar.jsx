@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 
 
-export default function SideBar({ listButton, setPageSelected }) {
+export default function SideBar({ listButton }) {
   const handleClick =(event)=>{
     const value = event.target.getAttribute('data-value')
     setPageSelected(value)
