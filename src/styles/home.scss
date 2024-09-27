@@ -1,5 +1,6 @@
 .event-container-soon{
     gap: 18.5px;
-    max-width: 53.5em;
+    flex-basis:auto ;
     flex-wrap: wrap;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
 }

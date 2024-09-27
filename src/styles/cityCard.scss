@@ -1,6 +1,29 @@
 .img-container{
-    width: 200px;
-    img{
-        width: 200px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 226px;
+    height: fit-content;
+    .card-title{
+        z-index: 3;
+        text-align: center;
+        position: relative;
+        top: 3.79em;
+        font-size: x-large;
+        font-weight: bold;
+        color: white;
     }
+    .thumbnail{
+        // width: 200px;
+        position: relative;
+        filter: brightness(30%);
+        transition: 200ms;
+    }
+    .thumbnail-hovered{
+        transition: 200ms;
+        filter: brightness(60%);
+    }
+}
+.img-container ~ img{
+    filter: brightness(60%);
 }

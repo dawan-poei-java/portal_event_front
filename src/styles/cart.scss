@@ -1,0 +1,35 @@
+#cart-page{
+    max-width: 80%;
+}
+.split{
+    // display: flex;
+    // flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2em;
+    .item-list{
+        border-right: 1px solid #e5e7eb;
+
+        .cart-item{
+            background-color: #e1e1e1;
+            padding: 2em;
+            width: 100%;
+        }
+    }
+}
+.cart-sidebar{
+    max-width: 759px;
+    // width: 100%;
+}
+.visiteur-input{
+    display: flex;
+    flex-wrap: wrap;
+    div{
+        width: 31%;
+        flex-shrink:1;
+    }
+    
+}
+.info-hidden{
+    display: none;
+}
