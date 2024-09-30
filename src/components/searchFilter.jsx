@@ -13,7 +13,8 @@ const SearchFilter = ({ eventsData, onFilter, selectedCategory }) => {
 
     if (selectedCategory !== "Tout") {
       filtered = filtered.filter(
-        (event) => event.category === selectedCategory
+        (event) =>
+          event.typeEvent.name.toLowerCase() === selectedCategory.toLowerCase()
       );
     }
 
@@ -35,7 +36,7 @@ const SearchFilter = ({ eventsData, onFilter, selectedCategory }) => {
         placeholder="Rechercher un événement..."
         value={searchTerm}
         onChange={handleSearch}
-        style={{ padding: "10px", width: "100%", marginBottom: "20px" }}
+        className="p-2 px-4 py-2 rounded-full bg-slate-200 focus:border-none focus:outline-none"
       />
     </div>
   );

@@ -1,5 +1,5 @@
 export const isTokenExpired = () => {
-  const expiration = localStorage.getItem("expiresAt");
+  const expiration = sessionStorage.getItem("expiresAt");
 
   if (!expiration) {
     return true;
