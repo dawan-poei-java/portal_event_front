@@ -4,9 +4,16 @@ import "../styles/listAllEvent.scss";
 import EventCard from "../components/eventCard";
 import EventGrid from "../components/eventGrid";
 import SearchFilter from "../components/searchFilter";
+import { useApi } from "../hooks/useApi";
 
 export default function ListAllEvent() {
-  const allEvents = [
+  const { data: allEvents, loadingEvent, errorEvent } = useApi("/events");
+  const {
+    data: allTypesEvent,
+    loadingTypeEvent,
+    errorTypeEvent,
+  } = useApi("/typeEvents");
+  /* const allEvents = [
     {
       id: 1,
       title: "Atelier de peinture",
@@ -31,7 +38,7 @@ export default function ListAllEvent() {
       category: "Concert",
       description: "description",
     },
-  ];
+  ]; */
 
   const [selectedCategory, setSelectedCategory] = useState("Tout");
   const [filteredEvents, setFilteredEvents] = useState(allEvents);
@@ -40,35 +47,32 @@ export default function ListAllEvent() {
     setFilteredEvents(events);
   };
 
+  useEffect(() => {
+    handleFilterEvent(allEvents);
+  }, [allEvents]);
+
   return (
     <>
       <section className="page-container-allEvent">
-        <h2>Tout les évènements</h2>
-        <div className="flex justify-between ">
+        <h2>Tous les évènements</h2>
+        <div className="flex justify-between mb-16">
           <SearchFilter
             eventsData={allEvents}
             onFilter={handleFilterEvent}
             selectedCategory={selectedCategory}
           />
           <div className="flex gap-2">
-            <button
-              className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
-              onClick={() => setSelectedCategory("Spectacle")}
-            >
-              Spectacle
-            </button>
-            <button
-              className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
-              onClick={() => setSelectedCategory("Concert")}
-            >
-              Concert
-            </button>
-            <button
-              className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
-              onClick={() => setSelectedCategory("Exposition")}
-            >
-              Exposition
-            </button>
+            {allTypesEvent &&
+              allTypesEvent.map((category) => (
+                <button
+                  key={category.id}
+                  className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
+                  onClick={() => setSelectedCategory(category.name)}
+                >
+                  {category.name.charAt(0).toUpperCase() +
+                    category.name.slice(1)}
+                </button>
+              ))}
             <button
               className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
               onClick={() => setSelectedCategory("Tout")}
@@ -77,13 +81,14 @@ export default function ListAllEvent() {
             </button>
           </div>
         </div>
-        <div className="flex justify-between flex-warp warp event-container-soon">
-          {filteredEvents.map((e) => {
-            return <EventCard key={e.id} />;
-          })}
-        </div>
+        {/*         <div className="flex justify-between flex-warp warp event-container-soon">
+          {filteredEvents &&
+            filteredEvents.map((e) => {
+              return <EventCard key={e.id} />;
+            })}
+        </div> */}
 
-        <EventGrid listeElement={filteredEvents} />
+        {filteredEvents && <EventGrid listeElement={filteredEvents} />}
       </section>
     </>
   );

@@ -17,15 +17,12 @@ import NotFound from "./views/notFound";
 import Contact from "./views/contact";
 import Footer from "./components/footer";
 
-
 import Auth from "./views/auth";
 
 import Cart from "./views/cart";
 import Logout from "./components/logout";
 
-import { authProvider as AuthProvider } from "./context/authProvider";
-
-
+import { authProvider as AuthProvider } from "./hooks/authProvider";
 
 function App() {
   return (
@@ -40,18 +37,18 @@ function App() {
           <Header />
           <Routes>
             <Route index path={"/"} element={<Home />} />
-            <Route path="*" element={<NotFound/>}/>
+            <Route path="*" element={<NotFound />} />
             <Route path={"/cities"} element={<Cities />} />
 
             <Route path={"/cities/:city"} element={<City />} />
             <Route path={"/cities/:city/:eventId"} element={<Event />} />
-            <Route path={"/contact"} element={<Contact/>} />
+            <Route path={"/contact"} element={<Contact />} />
             {/* a modifier quand le back est fini */}
             <Route path={"/profileclient"} element={<ProfilClient />} />
             <Route path={"/reservation"} element={<ReservationClient />} />
             <Route path={"/eventOrga"} element={<ListEventOrga />} />
             <Route path={"/allEvents"} element={<ListAllEvent />} />
-            <Route path={"/cart"} element={<Cart/>} />
+            <Route path={"/cart"} element={<Cart />} />
             <Route path={"/login"} element={<Auth />} />
             <Route path="/logout" element={<Logout />} />
           </Routes>

@@ -3,11 +3,9 @@ import "../styles/profilClient.scss";
 import SideBar from "../components/sideBar";
 import ClientInfomations from "../components/profileClient/clientInfomations";
 import ClientReservations from "../components/profileClient/clientReservations";
-import { Link } from "react-router-dom";
-
 
 export default function ProfilClient() {
-  const listBtn = ["Mes informations", "Mes Réservations", "Se déconnecter"];
+  const listBtn = ["Mes informations", "Mes Réservations"];
   const [pageSelected, setPageSelected] = useState("Mes informations");
 
   return (
@@ -17,11 +15,8 @@ export default function ProfilClient() {
       </div>
       <div className="main-container">
         {pageSelected === "Mes informations" && <ClientInfomations />}
-        {pageSelected === "Mes Réservations" && <ClientReservations/>}
+        {pageSelected === "Mes Réservations" && <ClientReservations />}
       </div>
-       <Link className="" to={"/logout"}>
-        se déconnecter
-      </Link>
     </section>
   );
 }
