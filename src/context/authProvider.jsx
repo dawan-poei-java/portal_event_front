@@ -1,49 +1,46 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import axios from "axios";
+import { login as apiLogin, register as apiRegister } from "../services/api";
 import { isTokenExpired } from "../middlewares/authMiddleware";
 
 const AuthContext = createContext();
 
-export const authProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = (email, password) => {
-    authRequest("login", {
-      email: email,
-      password: password,
-    });
-    setIsAuthenticated(true);
+  const login = async (email, password) => {
+    try {
+      const data = await apiLogin(email, password);
+      handleAuthResponse(data);
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error("Erreur de connexion", error);
+    }
   };
 
-  const register = (email, password, firstName, lastName) => {
-    authRequest("register", {
-      email: email,
-      password: password,
-      firstName: firstName,
-      lastName: lastName,
-      userRole: "USER",
-    });
-    setIsAuthenticated(true);
+  const register = async (email, password, firstName, lastName) => {
+    try {
+      const data = await apiRegister({
+        email,
+        password,
+        firstName,
+        lastName,
+        userRole: "USER",
+      });
+      handleAuthResponse(data);
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error("Erreur d'inscription", error);
+    }
   };
+
   const logout = () => {
     setIsAuthenticated(false);
-    localStorage.clear();
+    sessionStorage.clear();
   };
 
-  const authRequest = async (url, data) => {
-    try {
-      axios.post("http://localhost:8080/api/" + url, data).then((res) => {
-        console.log(res.data);
-        for (const [key, value] of Object.entries(res.data)) {
-          localStorage.setItem(key, value);
-          console.log(key, value);
-        }
-        //let token = localStorage.getItem("token");
-        //Check if it works
-        //axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      });
-    } catch (error) {
-      console.error("Error during request", error.response || error.message);
+  const handleAuthResponse = (data) => {
+    for (const [key, value] of Object.entries(data)) {
+      sessionStorage.setItem(key, value);
     }
   };
 
