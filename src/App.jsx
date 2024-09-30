@@ -22,7 +22,7 @@ import Auth from "./views/auth";
 import Cart from "./views/cart";
 import Logout from "./components/logout";
 
-import { authProvider as AuthProvider } from "./hooks/authProvider";
+import { AuthProvider } from "./hooks/authProvider";
 
 function App() {
   return (

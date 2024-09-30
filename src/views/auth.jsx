@@ -28,11 +28,18 @@ export default function Auth() {
   };
 
   // Next step: Store token in local storage and make sure all useful data is stored in token
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     console.log("Login : " + email + " " + password);
-    login(email, password);
-    navigate("/");
+    try {
+      await login(email, password);
+      // Navigation seulement après une connexion réussie
+      navigate("/");
+    } catch (error) {
+      // Gérer les erreurs de connexion ici
+      console.error("Erreur de connexion :", error);
+      // Éventuellement, afficher un message d'erreur à l'utilisateur
+    }
   };
 
   const handleRegister = (e) => {

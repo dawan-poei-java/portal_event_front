@@ -1,34 +1,48 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { useApi } from "./useApi";
+import axios from "axios";
 import { isTokenExpired } from "../middlewares/authMiddleware";
 
 const AuthContext = createContext();
 
-export const authProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { request, loading, error } = useApi();
+  const [authLoading, setAuthLoading] = useState(false);
+  const [authError, setAuthError] = useState(null);
+  const baseUrl = "http://localhost:8080";
 
   const login = async (email, password) => {
+    setAuthLoading(true);
+    setAuthError(null);
     try {
-      const data = await request("post", "/login", { email, password });
-      handleAuthSuccess(data);
+      const response = await axios.post(baseUrl + "/api/login", {
+        email,
+        password,
+      });
+      handleAuthSuccess(response.data);
     } catch (error) {
-      console.error("Erreur de connexion", error);
+      console.error(error);
+      setAuthError(error.response?.data?.message || "Erreur de connexion");
+    } finally {
+      setAuthLoading(false);
     }
   };
 
   const register = async (email, password, firstName, lastName) => {
+    setAuthLoading(true);
+    setAuthError(null);
     try {
-      const data = await request("post", "/register", {
+      const response = await axios.post(baseUrl + "/api/register", {
         email,
         password,
         firstName,
         lastName,
         userRole: "USER",
       });
-      handleAuthSuccess(data);
+      handleAuthSuccess(response.data);
     } catch (error) {
-      console.error("Erreur d'inscription", error);
+      setAuthError(error.response?.data?.message || "Erreur d'inscription");
+    } finally {
+      setAuthLoading(false);
     }
   };
 
@@ -52,7 +66,14 @@ export const authProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, login, logout, register, loading, error }}
+      value={{
+        isAuthenticated,
+        login,
+        logout,
+        register,
+        authLoading,
+        authError,
+      }}
     >
       {children}
     </AuthContext.Provider>
