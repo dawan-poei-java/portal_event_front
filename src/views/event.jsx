@@ -31,11 +31,11 @@ export default function event() {
     }
   }
 
-  const passes = [
+  /*  const passes = [
     { id: 1, name: "Pass VIP", price: 150 },
     { id: 2, name: "Pass Standard", price: 75 },
     { id: 3, name: "Pass Étudiant", price: 50 },
-  ];
+  ]; */
 
   useEffect(() => {
     if (event && event.images && event.images.length > 0) {
@@ -116,27 +116,6 @@ export default function event() {
           </div>
           <div>
             <p>{event.description}</p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque
-              distinctio quasi velit sequi aperiam voluptate harum! Ipsum minus
-              laboriosam laborum assumenda cumque. Voluptates maiores
-              consectetur ex distinctio voluptas recusandae veritatis!
-              Explicabo, ea. Eos necessitatibus reprehenderit maiores quo velit
-              dolore voluptatum? Aperiam quasi ad incidunt qui consequatur,
-              eveniet, repudiandae dolores cumque ipsa iusto recusandae eius
-              impedit doloremque maiores officia facere facilis. Doloribus
-              quibusdam minima nihil laborum at debitis praesentium facilis est
-              consectetur atque vitae, ipsa soluta magnam cupiditate aliquid
-              similique eum doloremque repudiandae eveniet quam placeat
-              provident iure perspiciatis repellendus. Ducimus! Magnam aliquam
-              ducimus deleniti magni, aspernatur quisquam deserunt quasi nobis
-              veniam qui sequi. Rem consectetur tempore illo repellendus, dolore
-              officia corporis, autem iure ea nulla assumenda ipsam, est sint
-              voluptatem? Ullam blanditiis accusantium non voluptates iste nam
-              harum enim omnis cumque maxime velit consequatur atque cum alias a
-              reiciendis optio repudiandae, quae iure numquam! Quia quo mollitia
-              nesciunt impedit nostrum.
-            </p>
           </div>
           <div className="flex gap-4">
             {guest.length > 0 && (
@@ -152,7 +131,7 @@ export default function event() {
             <div className="pricing-container">
               <h3>Billeterie</h3>
               <div className="flex flex-col gap-2 p-5 border rounded">
-                {passes.map((pass) => {
+                {event.pricings.map((pass) => {
                   return (
                     <div
                       key={pass.id}
