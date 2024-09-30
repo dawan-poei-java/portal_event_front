@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../styles/auth.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authProvider";
+import { useAuth } from "../hooks/authProvider";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
@@ -40,20 +40,6 @@ export default function Auth() {
     console.log("register");
     register(email, password, firstName, lastName);
     navigate("/");
-  };
-
-  const authRequest = async (url, data) => {
-    axios.post("http://localhost:8080/api/" + url, data).then((res) => {
-      console.log(res.data);
-      for (const [key, value] of Object.entries(res.data)) {
-        localStorage.setItem(key, value);
-        console.log(key, value);
-      }
-      let token = localStorage.getItem("token");
-      //Check if it works
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      navigate("/");
-    });
   };
 
   return (

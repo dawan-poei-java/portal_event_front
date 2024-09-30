@@ -1,17 +1,17 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { login as apiLogin, register as apiRegister } from "../services/api";
+import { useApi } from "./useApi";
 import { isTokenExpired } from "../middlewares/authMiddleware";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const authProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { request, loading, error } = useApi();
 
   const login = async (email, password) => {
     try {
-      const data = await apiLogin(email, password);
-      handleAuthResponse(data);
-      setIsAuthenticated(true);
+      const data = await request("post", "/login", { email, password });
+      handleAuthSuccess(data);
     } catch (error) {
       console.error("Erreur de connexion", error);
     }
@@ -19,29 +19,29 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password, firstName, lastName) => {
     try {
-      const data = await apiRegister({
+      const data = await request("post", "/register", {
         email,
         password,
         firstName,
         lastName,
         userRole: "USER",
       });
-      handleAuthResponse(data);
-      setIsAuthenticated(true);
+      handleAuthSuccess(data);
     } catch (error) {
       console.error("Erreur d'inscription", error);
     }
   };
 
-  const logout = () => {
-    setIsAuthenticated(false);
-    sessionStorage.clear();
-  };
-
-  const handleAuthResponse = (data) => {
+  const handleAuthSuccess = (data) => {
     for (const [key, value] of Object.entries(data)) {
       sessionStorage.setItem(key, value);
     }
+    setIsAuthenticated(true);
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    sessionStorage.clear();
   };
 
   useEffect(() => {
@@ -51,7 +51,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, register }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, login, logout, register, loading, error }}
+    >
       {children}
     </AuthContext.Provider>
   );
