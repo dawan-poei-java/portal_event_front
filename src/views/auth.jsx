@@ -5,40 +5,41 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/authProvider";
 
 export default function Auth() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [form, setForm] = useState("login");
+  const [authForm, setAuthForm] = useState("login");
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    address: "",
+    zipCode: "",
+    city: "",
+    phoneNumber: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const navigate = useNavigate();
 
   const { login, register } = useAuth();
-
-  const changeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const changePassword = (e) => {
-    setPassword(e.target.value);
-  };
-  const changeFirstName = (e) => {
-    setFirstName(e.target.value);
-  };
-  const changeLastName = (e) => {
-    setLastName(e.target.value);
-  };
 
   // Next step: Store token in local storage and make sure all useful data is stored in token
   const handleLogin = (e) => {
     e.preventDefault();
     console.log("Login : " + email + " " + password);
-    login(email, password);
+    login(form.email, form.password);
     navigate("/");
   };
 
   const handleRegister = (e) => {
     e.preventDefault();
     console.log("register");
-    register(email, password, firstName, lastName);
+    register(form.email, form.password, form.firstName, form.lastName);
     navigate("/");
   };
 
@@ -50,25 +51,25 @@ export default function Auth() {
             <div className="flex justify-center rounded-md" role="group">
               <button
                 type="button"
-                onClick={() => setForm("login")}
+                onClick={() => setAuthForm("login")}
                 className={`px-4 py-2 text-sm font-medium text-gray-900 border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white ${
-                  form == "login" ? "bg-slate-100" : "bg-white"
+                  authForm == "login" ? "bg-slate-100" : "bg-white"
                 }`}
               >
                 Connexion
               </button>
               <button
                 type="button"
-                onClick={() => setForm("register")}
+                onClick={() => setAuthForm("register")}
                 className={`px-4 py-2 text-sm font-medium text-gray-900 border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white ${
-                  form == "register" ? "bg-slate-100" : "bg-white"
+                  authForm == "register" ? "bg-slate-100" : "bg-white"
                 }`}
               >
                 S'inscrire
               </button>
             </div>
             <h2 className="mt-10 text-2xl font-bold leading-9 tracking-tight text-center text-gray-900">
-              {form == "login"
+              {authForm == "login"
                 ? "Sign in to your account"
                 : "Create a new account"}
             </h2>
@@ -77,7 +78,7 @@ export default function Auth() {
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form
               className="space-y-6"
-              onSubmit={form == "login" ? handleLogin : handleRegister}
+              onSubmit={authForm == "login" ? handleLogin : handleRegister}
             >
               <div>
                 <label className="block text-sm font-medium leading-6 text-gray-900">
@@ -90,8 +91,8 @@ export default function Auth() {
                     type="email"
                     autoComplete="email"
                     required
-                    value={email}
-                    onChange={changeEmail}
+                    value={form.email}
+                    onChange={handleChange}
                     className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -120,14 +121,14 @@ export default function Auth() {
                     type="password"
                     autoComplete="current-password"
                     required
-                    value={password}
-                    onChange={changePassword}
+                    value={form.password}
+                    onChange={handleChange}
                     className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
 
-              {form == "register" && (
+              {authForm == "register" && (
                 <>
                   <div>
                     <label className="block text-sm font-medium leading-6 text-gray-900">
@@ -139,8 +140,8 @@ export default function Auth() {
                         name="first_name"
                         type="text"
                         required
-                        value={firstName}
-                        onChange={changeFirstName}
+                        value={form.firstName}
+                        onChange={handleChange}
                         className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
@@ -155,8 +156,72 @@ export default function Auth() {
                         name="last_name"
                         type="text"
                         required
-                        value={lastName}
-                        onChange={changeLastName}
+                        value={form.lastName}
+                        onChange={handleChange}
+                        className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                      Address
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="address"
+                        name="address"
+                        type="text"
+                        required
+                        value={form.address}
+                        onChange={handleChange}
+                        className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                      City
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="city"
+                        name="city"
+                        type="text"
+                        required
+                        value={form.city}
+                        onChange={handleChange}
+                        className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                      Zipcode
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="zipCode"
+                        name="zipCode"
+                        type="text"
+                        required
+                        value={form.zipCode}
+                        onChange={handleChange}
+                        className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                      Phone Number
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="phone_number"
+                        name="phone_number"
+                        type="tel"
+                        required
+                        value={form.phoneNumber}
+                        onChange={handleChange}
                         className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
