@@ -23,7 +23,11 @@ export default function events() {
                 return (
                   <CityCard
                     name={elements.name}
-                    thumbnail={"https://placehold.co/226x150"}
+                    thumbnail={
+                      elements.image == ""
+                        ? "https://placehold.co/226x150"
+                        : elements.image
+                    }
                   />
                 );
               })}
