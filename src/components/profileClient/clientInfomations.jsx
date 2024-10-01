@@ -8,11 +8,13 @@ export default function ClientInfomations() {
   );
   const [userDataChanged, setUserDataChanged] = useState(null);
 
+  
+
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
     console.log("first");
   };
-
+console.log(userData)
   useEffect(() => {
     setUserDataChanged(userData);
   }, [userData]);

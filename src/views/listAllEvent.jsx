@@ -51,6 +51,7 @@ export default function ListAllEvent() {
     handleFilterEvent(allEvents);
   }, [allEvents]);
 
+
   return (
     <>
       <section className="page-container-allEvent">

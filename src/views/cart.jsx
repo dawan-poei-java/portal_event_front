@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
 export default function Cart() {
-  const [cartItems, setCartItems] = useState();
+  const [cartItems, setCartItems] = useState([]);
   const [discountCode, setdiscountCode] = useState([]);
   const [selectedDiscountCode, setSelectedDiscountCode] = useState();
   const [inputValue, setInputValue] = useState("");
@@ -41,7 +41,7 @@ export default function Cart() {
     }
   }
 
-
+console.log(cartItems.length)
   useEffect(() => {
     if (cartItems) {
       let sum = cartItems.reduce((acc, item) => acc + item.price, 0); // Somme des prix des items
@@ -78,17 +78,19 @@ export default function Cart() {
       { id: 5, name: "CYBERMONDAY", discount: 30 },
     ]);
   }, []);
-
   return (
     <section id="cart-page" className="page-container">
       {/* <h3>Pannier</h3> */}
 
       <div className="split">
         <div className="item-list p-4 flex flex-col gap-4">
-          {cartItems != undefined &&
+          {cartItems.length > 0 ? (
             cartItems.map((item) => {
               return <CartItem items={item} handleDelete={handleDelete} />;
-            })}
+            })
+          ) : (
+            <h1>Pannier vide</h1>
+          )}
         </div>
         <div className="cart-sidebar flex flex-col gap-4">
           <div className="resume">
@@ -120,7 +122,9 @@ export default function Cart() {
             </div>
             <div className="flex justify-between">
               <h5 className="font-bold">Total</h5>
-              <p>{selectedDiscountCode ?cartFinalPrice.toFixed(2): cartPrice} €</p>
+              <p>
+                {selectedDiscountCode ? cartFinalPrice.toFixed(2) : cartPrice} €
+              </p>
             </div>
             <div>
               <p className={invalidCode ? "text-red-500" : "hidden"}>

@@ -1,54 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import ReservationPopup from './reservationPopup';
+import { useApi } from '../../hooks/useApi';
 
 export default function ClientReservations() {
 
-    const [events,setEvents] = useState();
-    const [popup,setPopup] =useState(false)
+  const { data: reservations,loading } = useApi("/reservations/user/"+ sessionStorage.getItem("userId")
+  );
+    const [clickedReservation, setClickedReservation] = useState()
+    const [popup,setPopup] =useState(false);
+    const isOpen = (e) =>{
+      setClickedReservation(reservations.find((item)=>item.id == e.target.value))
 
-    const isOpen = () =>{
         setPopup(true)
     }
 
-    useEffect(()=>{
-        setEvents([
-          {
-            id: 1,
-            name: "John Doe",
-            price: 100,
-            date: "2024-10-01",
-            event_id: "EVT1001",
-          },
-          {
-            id: 2,
-            name: "Jane Smith",
-            price: 75,
-            date: "2024-11-15",
-            event_id: "EVT1002",
-          },
-          {
-            id: 3,
-            name: "Paul Martin",
-            price: 120,
-            date: "2024-12-30",
-            event_id: "EVT1003",
-          },
-          {
-            id: 4,
-            name: "Anna Johnson",
-            price: 80,
-            date: "2024-10-05",
-            event_id: "EVT1004",
-          },
-          {
-            id: 5,
-            name: "Mark Wilson",
-            price: 95,
-            date: "2024-11-20",
-            event_id: "EVT1005",
-          },
-        ]);
-    },[])
+
 
   return (
     <>
@@ -67,15 +33,25 @@ export default function ClientReservations() {
             </tr>
           </thead>
           <tbody>
-            {events !== undefined &&
-              events.map((e) => {
+            {reservations &&
+              reservations.map((e) => {
+                const formattedDate = new Date(
+                  e.date.toLocaleString("fr-FR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                ).toLocaleString();
+                console.log("date",formattedDate)
                 return (
                   <tr key={e.id} className="body-row">
-                    <td>{e.name}</td>
-                    <td>{e.price}</td>
-                    <td>{e.date}</td>
+                    <td>{e.event.title}</td>
+                    <td>{e.pricing.price}</td>
+                    <td>{formattedDate}</td>
                     <td>
-                      <button className="table-popup" onClick={isOpen}>
+                      <button value={e.id} className="table-popup" onClick={isOpen}>
                         Voir
                       </button>
                     </td>
@@ -84,7 +60,7 @@ export default function ClientReservations() {
               })}
           </tbody>
         </table>
-        {popup && <ReservationPopup e={events} setPopup={setPopup} />}
+        {popup && <ReservationPopup reservation={clickedReservation} setPopup={setPopup} />}
       </div>
     </>
   );
