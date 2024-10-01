@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "../styles/popularEventCard.scss";
 
 export default function PopularEventCard({ event }) {
   return (
@@ -7,7 +8,7 @@ export default function PopularEventCard({ event }) {
       {event && (
         <Link
           to={"/cities/" + event.city.name + "/" + event.id}
-          className="relative block w-[960px] h-[295px] rounded-xl"
+          className="card relative block w-[960px] h-[295px] rounded-xl transition-all hover:shadow-[0 0 28px rgba(0, 0, 0, 0.25)]"
         >
           <div className="absolute bottom-0 p-2.5 text-white">
             {event && event.title}

@@ -20,8 +20,10 @@ export const AuthProvider = ({ children }) => {
       });
       handleAuthSuccess(response.data);
     } catch (error) {
+      console.log("Catch Login");
       console.error(error);
       setAuthError(error.response?.data?.message || "Erreur de connexion");
+      throw error;
     } finally {
       setAuthLoading(false);
     }
@@ -31,13 +33,13 @@ export const AuthProvider = ({ children }) => {
     setAuthLoading(true);
     setAuthError(null);
     try {
-      const response = await axios.post(baseUrl + "/api/register", {
-        ...form,
-        userRole: "USER",
-      });
+      const response = await axios.post(baseUrl + "/api/register", form);
       handleAuthSuccess(response.data);
     } catch (error) {
+      console.log("Catch Register");
+      console.error(error);
       setAuthError(error.response?.data?.message || "Erreur d'inscription");
+      throw error;
     } finally {
       setAuthLoading(false);
     }

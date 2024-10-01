@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import { useApi } from "../../hooks/useApi";
 
 export default function ClientInfomations() {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
   const { data: userData } = useApi(
     "/users/" + sessionStorage.getItem("userId")
   );
@@ -134,6 +134,7 @@ export default function ClientInfomations() {
                   <input
                     type="checkbox"
                     className="border"
+                    checked
                     onClick={handleCheckboxChange}
                   />
                 </div>
