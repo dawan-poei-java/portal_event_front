@@ -4,9 +4,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/authProvider";
 import { useApi } from "../hooks/useApi";
+import { TbAlertCircleFilled } from "react-icons/tb";
+import { IoIosClose } from "react-icons/io";
 
 export default function Auth() {
   const [authForm, setAuthForm] = useState("login");
+  const [errorMsg, setErrorMsg] = useState(null);
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -17,6 +20,8 @@ export default function Auth() {
     zipCode: "",
     city: "",
     phoneNumber: "",
+    role: "USER",
+    birthDate: "",
   });
 
   const handleChange = (e) => {
@@ -31,7 +36,7 @@ export default function Auth() {
 
   const navigate = useNavigate();
 
-  const { login, register } = useAuth();
+  const { login, register, authError } = useAuth();
 
   // Next step: Store token in local storage and make sure all useful data is stored in token
   const handleLogin = async (e) => {
@@ -44,6 +49,7 @@ export default function Auth() {
     } catch (error) {
       // Gérer les erreurs de connexion ici
       console.error("Erreur de connexion :", error);
+      handleCloseAlert(null, "Erreur lors de l'authentification");
       // Éventuellement, afficher un message d'erreur à l'utilisateur
     }
   };
@@ -56,7 +62,12 @@ export default function Auth() {
       navigate("/");
     } catch (error) {
       console.error("Erreur de connexion :", error);
+      handleCloseAlert(null, "Erreur lors de l'authentification");
     }
+  };
+
+  const handleCloseAlert = (e, msg = null) => {
+    setErrorMsg(msg);
   };
 
   useEffect(() => {
@@ -67,6 +78,19 @@ export default function Auth() {
 
   return (
     <>
+      {/* ALERT ERROR MSG */}
+      {errorMsg && (
+        <div className="absolute flex items-center gap-4 px-6 py-4 my-4 text-lg bg-red-200 border border-red-300 rounded-md inset-x-8 top-36">
+          <IoIosClose
+            size={32}
+            className="absolute top-0 right-0 cursor-pointer"
+            onClick={handleCloseAlert}
+            color="#DC2626"
+          />
+          <TbAlertCircleFilled color="#DC2626" size={28} />
+          <p className="text-red-500">{errorMsg}</p>
+        </div>
+      )}
       <section className="pt-8 page-container">
         <div className="flex flex-col justify-center min-h-full px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -159,7 +183,7 @@ export default function Auth() {
                     <input
                       id="confirmedPassword"
                       name="confirmedPassword"
-                      type="confirmedPassword"
+                      type="password"
                       autoComplete="confirmed-password"
                       required
                       value={form.confirmedPassword}
@@ -240,6 +264,25 @@ export default function Auth() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium leading-6 text-gray-900">
+                      Role
+                    </label>
+                    <div className="mt-2">
+                      <select
+                        id="role"
+                        name="role"
+                        value={form.role}
+                        onChange={handleChange}
+                        className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      >
+                        <option value="USER" selected>
+                          Utilisateur
+                        </option>
+                        <option value="ORGANIZER">Organisateur</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium leading-6 text-gray-900">
                       Zipcode
                     </label>
                     <div className="mt-2">
@@ -265,6 +308,22 @@ export default function Auth() {
                         type="tel"
                         required
                         value={form.phoneNumber}
+                        onChange={handleChange}
+                        className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                      Date de naissance
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="birthDate"
+                        name="birthDate"
+                        type="date"
+                        required
+                        value={form.birthDate}
                         onChange={handleChange}
                         className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
