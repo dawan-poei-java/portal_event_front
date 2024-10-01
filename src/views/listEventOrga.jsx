@@ -7,7 +7,6 @@ export default function ListEventOrga() {
     "Mes informations",
     "Mes Réservations",
     "Mes Evenements",
-    "Se déconnecter",
   ];
 
   const [evenements, setEvenements] = useState([]);

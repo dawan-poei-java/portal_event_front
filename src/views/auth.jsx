@@ -183,7 +183,7 @@ export default function Auth() {
                     <input
                       id="confirmedPassword"
                       name="confirmedPassword"
-                      type="confirmedPassword"
+                      type="password"
                       autoComplete="confirmed-password"
                       required
                       value={form.confirmedPassword}

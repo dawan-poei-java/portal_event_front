@@ -3,9 +3,7 @@ import { useApi } from "../../hooks/useApi";
 
 export default function ClientInfomations() {
   const [isChecked, setIsChecked] = useState(true);
-  const { data: userData } = useApi(
-    "/users/" + sessionStorage.getItem("userId")
-  );
+  const { data: userData } = useApi("/users/me");
   const [userDataChanged, setUserDataChanged] = useState(null);
 
   const handleCheckboxChange = (event) => {

@@ -15,6 +15,11 @@ export default function SideBar({ listButton, setPageSelected }) {
           </button>
         );
       })}
+      {sessionStorage.getItem("role") === "ORGANIZER" && (
+        <button data-value="event-orga" onClick={handleClick}>
+          Événements organisateur
+        </button>
+      )}
       <Link className="flex items-center justify-center" to={"/logout"}>
         Se déconnecter
       </Link>
