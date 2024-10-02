@@ -26,8 +26,8 @@ useEffect(()=>{
   return (
     <>
       {elements && (
-        <section className="page-container">
-          <h2>{city}</h2>
+        <section className="page-container grid gap-10">
+          <h1>{city}</h1>
           <div>
             <EventGrid
               title={"Prochainement"}
