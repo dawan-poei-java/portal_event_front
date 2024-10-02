@@ -11,12 +11,13 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  config.headers["Content-Type"] = "application/json";
+  //config.headers["Content-Type"] = "application/json";
   return config;
 });
 
-//export const login = (email, password) => api.post('/login', { email, password });
-//export const register = (userData) => api.post('/register', userData);
+/* export const login = (email, password) =>
+  api.post("/login", { email, password });
+export const register = (userData) => api.post("/register", userData); */
 // Ajoutez d'autres méthodes API ici
 
 export default api;

@@ -14,26 +14,19 @@ export default function Cart() {
   const [invalidCode, setInvalidCode] = useState(false);
   const [cartPrice, setCartPrice] = useState(0);
   const [cartFinalPrice, setCartFinalPrice] = useState(0);
-  
-
-  
 
   function handleChange(e) {
     setInputValue(e.target.value);
   }
 
   function handleDelete(e) {
-
-
-  let delId = cartItems.filter((item) => item.id == parseInt(e.target.value));
+    let delId = cartItems.filter((item) => item.id == parseInt(e.target.value));
     cartService.removeFromCart(delId[0].id);
-
 
     const updateItems = cartItems.filter(
       (item) => item.id !== parseInt(e.target.value)
     );
     setCartItems(updateItems);
-    
   }
 
   function deleteDiscount() {
@@ -54,7 +47,7 @@ export default function Cart() {
     }
   }
 
-console.log(cartItems.length)
+  console.log(cartItems.length);
   useEffect(() => {
     if (cartItems) {
       let sum = cartItems.reduce((acc, item) => acc + item.price, 0); // Somme des prix des items
@@ -82,19 +75,19 @@ console.log(cartItems.length)
   }, []);
   return (
     <section id="cart-page" className="page-container">
-      {/* <h3>Pannier</h3> */}
+      {/* <h3>Panier</h3> */}
 
       <div className="split">
-        <div className="item-list p-4 flex flex-col gap-4">
+        <div className="flex flex-col gap-4 p-4 item-list">
           {cartItems.length > 0 ? (
             cartItems.map((item) => {
               return <CartItem items={item} handleDelete={handleDelete} />;
             })
           ) : (
-            <h1>Pannier vide</h1>
+            <h1>Panier vide</h1>
           )}
         </div>
-        <div className="cart-sidebar flex flex-col gap-4">
+        <div className="flex flex-col gap-4 cart-sidebar">
           <div className="resume">
             <h5>Résumé</h5>
             <div>
@@ -110,11 +103,11 @@ console.log(cartItems.length)
             </div>
           </div>
           <hr />
-          <div className="pay grid gap-4">
+          <div className="grid gap-4 pay">
             <div className="discount-list">
               {selectedDiscountCode != undefined && (
                 <div className="flex justify-between">
-                  <div className="flex gap-4 items-center">
+                  <div className="flex items-center gap-4">
                     <FontAwesomeIcon icon={faX} onClick={deleteDiscount} />
                     <p>{selectedDiscountCode.name}</p>
                   </div>
@@ -132,25 +125,25 @@ console.log(cartItems.length)
               <p className={invalidCode ? "text-red-500" : "hidden"}>
                 Code promo invalide
               </p>
-              <div className="discount flex gap-4">
+              <div className="flex gap-4 discount">
                 <input
                   placeholder="Code promo"
                   type="text"
                   id="discount-code"
                   onChange={handleChange}
                   value={inputValue}
-                  className="code border rounded-full px-2 py-1 w-9/12"
+                  className="w-9/12 px-2 py-1 border rounded-full code"
                 />
                 <button
                   onClick={handleDiscountCode}
-                  className="apply-discount rounded-full w-fit bg-black text-white w-3/12 px-3 py-1"
+                  className="w-3/12 px-3 py-1 text-white bg-black rounded-full apply-discount w-fit"
                 >
                   Appliquer
                 </button>
               </div>
             </div>
 
-            <button className="w-full rounded-full bg-black text-white py-1">
+            <button className="w-full py-1 text-white bg-black rounded-full">
               Valider et payer
             </button>
           </div>

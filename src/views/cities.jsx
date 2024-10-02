@@ -12,7 +12,7 @@ export default function events() {
       <div className="grid gap-10">
         <div className="flex items-center justify-between">
           <h2>Les Villes</h2>
-          <Link to={"/allEvents/"}>Voir tout les événements</Link>
+          <Link to={"/allEvents/"}>Voir tous les événements</Link>
         </div>
 
         <div className="flex cards-container ">
