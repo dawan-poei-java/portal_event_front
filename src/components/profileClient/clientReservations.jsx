@@ -20,7 +20,7 @@ export default function ClientReservations() {
     <>
       <div
         id="client-reservation"
-        className="page-container-profile grid gap-10"
+        className="page-container-profile  grid gap-10"
       >
         <h2>Mes réservations</h2>
         <table className="table" border="1">

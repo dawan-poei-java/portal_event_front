@@ -5,9 +5,11 @@ import ClientReservations from "../components/profileClient/clientReservations";
 import { Link } from "react-router-dom";
 import ListGrid from "../components/admin/listGrid";
 import Header from "../components/header";
+import "../styles/admin.scss"
+import ListUsers from "../components/admin/listUsers";
+import ListEvents from "../components/admin/listEvents";
 
 export default function Admin() {
-  const api = "http://localhost:8080/api/";
   const [pageSelected, setPageSelected] = useState("Mes informations");
 
   const listBtn = [
@@ -29,10 +31,10 @@ export default function Admin() {
       <div className="main-container">
         {pageSelected === "Mes informations" && <ClientInfomations />}
         {pageSelected === "Mes Réservations" && <ClientReservations />}
-        {pageSelected === "Liste des événements" && <ListGrid page={pageSelected} req={api + "events"} />}
-        {pageSelected === "Liste des utilisateurs" && <ListGrid page={pageSelected} req={api + "users"} />}
-        {pageSelected === "Liste des catégories" && <ListGrid page={pageSelected} req={api + "categories"} />}
-        {pageSelected === "Liste des catégories" && <ListGrid page={pageSelected} req={api + "categories"} />}
+        {pageSelected === "Liste des événements" && <ListEvents page={pageSelected}  />}
+        {pageSelected === "Liste des utilisateurs" && <ListUsers page={pageSelected}  />}
+        {pageSelected === "Liste des catégories" && <ListGrid page={pageSelected}  />}
+        {pageSelected === "Liste des catégories" && <ListGrid page={pageSelected}  />}
       </div>
     </section>
   );
