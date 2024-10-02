@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import api from "../services/api";
 
 export const useApi = (url, method = "GET", body = null) => {
@@ -48,5 +48,56 @@ export const useApi = (url, method = "GET", body = null) => {
     fetchData();
   }, [url, method, body]);
 
-  return { data, loading, error };
+  // Ajoutez cette nouvelle fonction
+  const sendRequest = useCallback(
+    async (newUrl, newMethod = "POST", newBody = null, isFormData = false) => {
+      setLoading(true);
+      setError(null);
+      try {
+        console.log(
+          `Début de l'appel API avec l'URL: ${newUrl}, méthode: ${newMethod}`
+        );
+        let response;
+        /*         const config = isFormData
+          ? {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          : {}; */
+        const config = {};
+        console.log(`Configuration du callApi : isFormData => ${isFormData}`);
+        switch (newMethod.toUpperCase()) {
+          case "POST":
+            response = await api.post(newUrl, newBody, config);
+            break;
+          case "PUT":
+            response = await api.put(newUrl, newBody, config);
+            break;
+          case "DELETE":
+            response = await api.delete(newUrl, config);
+            break;
+          default:
+            response = await api.get(newUrl, config);
+        }
+        console.log(
+          `Réponse reçue pour l'URL: ${newUrl}, méthode: ${newMethod}`
+        );
+        setData(response.data);
+        return response.data;
+      } catch (err) {
+        console.error(
+          `Erreur pour l'URL: ${newUrl}, méthode: ${newMethod}`,
+          err
+        );
+        setError(err.response?.data?.message || "Une erreur est survenue");
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  return { data, loading, error, sendRequest };
 };

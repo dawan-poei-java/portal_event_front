@@ -1,12 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useApi } from "../../hooks/useApi";
 
 export default function EventForm() {
   const [typeEvents, setTypeEvents] = useState([]);
   const [cities, setCities] = useState([]);
-  const [prices, setPrices] = useState([{ name: "", price: "" }]);
+  const [pricings, setPricings] = useState([{ name: "", price: "" }]);
   const { data: types } = useApi("/typeEvents");
   const { data: citiesResult } = useApi("/cities");
+  const [formError, setFormError] = useState("");
+  const formRef = useRef(null);
+
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    typeEvent: {},
+    startDate: "",
+    endDate: "",
+    startTime: "",
+    endTime: "",
+    city: {},
+    address: "",
+    zipCode: "",
+    state: "WAITING",
+    images: [],
+  });
+
+  const { data, loading, error, sendRequest } = useApi();
 
   useEffect(() => {
     // Ici, vous devriez récupérer les typeEvents et les villes depuis votre base de données
@@ -15,23 +34,106 @@ export default function EventForm() {
   }, [types, cities]);
 
   const handleAddPrice = () => {
-    setPrices([...prices, { name: "", price: "" }]);
+    setPricings([...pricings, { name: "", price: "" }]);
   };
 
   const handlePriceChange = (index, field, value) => {
-    const newPrices = [...prices];
-    newPrices[index][field] = value;
-    setPrices(newPrices);
+    const newPricings = [...pricings];
+    newPricings[index][field] = value;
+    setPricings(newPricings);
   };
 
   const handleRemovePrice = (index) => {
-    const newPrices = prices.filter((_, i) => i !== index);
-    setPrices(newPrices);
+    const newPricings = pricings.filter((_, i) => i !== index);
+    setPricings(newPricings);
+  };
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]:
+        id === "typeEvent" || id === "city"
+          ? (id === "typeEvent" ? typeEvents : cities).find(
+              (item) => item.id === parseInt(value)
+            )
+          : id === "startDate" || id === "endDate"
+          ? value + "T00:00:00" // Ajoute l'heure au format ISO
+          : value,
+    }));
+  };
+
+  const handleSendingForm = async (e) => {
+    e.preventDefault();
+    const errors = [];
+    setFormError(errors);
+    const regexZipCode = /^(0[1-9]|[1-9][0-9]|2[AB])\d{3}$/; //Prends en compte les codes postaux français ainsi que la particularité corse
+    // Gestion des erreurs
+    if (formData.images.length < 2) {
+      errors.push("Veuillez sélectionner au moins deux images.");
+    }
+
+    if (formData.startDate >= formData.endDate) {
+      errors.push("La date de début doit être antérieure à la date de fin.");
+    }
+    if (
+      formData.startTime >= formData.endTime &&
+      formData.startDate === formData.endDate
+    ) {
+      errors.push("L'heure de début doit être antérieure à l'heure de fin.");
+    }
+    if (!regexZipCode.test(formData.zipCode)) {
+      errors.push("Le code postal n'est pas du format français.");
+    }
+    if (errors.length > 0) {
+      setFormError(errors);
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    try {
+      const { images, ...eventData } = formData;
+      const event = {
+        ...eventData,
+        pricings,
+      };
+      const formDataToSend = new FormData();
+      formDataToSend.append(
+        "event",
+        new Blob([JSON.stringify(event)], { type: "application/json" })
+      );
+      images.forEach((image, index) => {
+        formDataToSend.append(`images`, image);
+      });
+      const result = await sendRequest("/events", "POST", formDataToSend, true);
+      console.log("Événement créé avec succès:", result);
+      // Réinitialiser le formulaire ou rediriger l'utilisateur
+    } catch (err) {
+      console.error("Erreur lors de l'envoi:", err);
+      setFormError([
+        "Une erreur est survenue lors de l'envoi du formulaire. Veuillez réessayer.",
+      ]);
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
-    <div className="max-w-lg p-4 mx-auto">
-      <form className="space-y-6">
+    <div ref={formRef} className="max-w-lg p-4 mx-auto">
+      <form className="space-y-6" onSubmit={handleSendingForm}>
+        {formError && formError.length > 0 && (
+          <div
+            className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert"
+          >
+            <ul className="pl-5 list-disc">
+              {formError.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         <div className="mb-5">
           <label
             htmlFor="title"
@@ -42,6 +144,8 @@ export default function EventForm() {
           <input
             type="text"
             id="title"
+            value={formData.title}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
           />
@@ -57,6 +161,8 @@ export default function EventForm() {
           <textarea
             id="description"
             rows="4"
+            value={formData.description}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
           ></textarea>
@@ -71,13 +177,17 @@ export default function EventForm() {
           </label>
           <select
             id="typeEvent"
+            value={formData.typeEvent.id || ""}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
           >
+            <option value="">Sélectionnez un type d'événement</option>
             {typeEvents &&
-              typeEvents.map((type, index) => (
-                <option key={index} value={type.id}>
-                  {type.name.charAt(0).toUpperCase() + type.name.slice(1).toLowerCase()}
+              typeEvents.map((type) => (
+                <option key={type.id} value={type.id}>
+                  {type.name.charAt(0).toUpperCase() +
+                    type.name.slice(1).toLowerCase()}
                 </option>
               ))}
           </select>
@@ -94,6 +204,8 @@ export default function EventForm() {
             <input
               type="date"
               id="startDate"
+              value={formData.startDate ? formData.startDate.split("T")[0] : ""}
+              onChange={handleInputChange}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             />
@@ -108,6 +220,8 @@ export default function EventForm() {
             <input
               type="date"
               id="endDate"
+              value={formData.endDate ? formData.endDate.split("T")[0] : ""}
+              onChange={handleInputChange}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             />
@@ -125,6 +239,8 @@ export default function EventForm() {
             <input
               type="time"
               id="startTime"
+              value={formData.startTime}
+              onChange={handleInputChange}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             />
@@ -139,6 +255,8 @@ export default function EventForm() {
             <input
               type="time"
               id="endTime"
+              value={formData.endTime}
+              onChange={handleInputChange}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             />
@@ -154,12 +272,15 @@ export default function EventForm() {
           </label>
           <select
             id="city"
+            value={formData.city.id || ""}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
           >
+            <option value="">Sélectionnez une ville</option>
             {cities &&
-              cities.map((city, index) => (
-                <option key={index} value={city.id}>
+              cities.map((city) => (
+                <option key={city.id} value={city.id}>
                   {city.name}
                 </option>
               ))}
@@ -176,6 +297,8 @@ export default function EventForm() {
           <input
             type="text"
             id="address"
+            value={formData.address}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
           />
@@ -191,6 +314,8 @@ export default function EventForm() {
           <input
             type="text"
             id="zipCode"
+            value={formData.zipCode}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
           />
@@ -200,12 +325,12 @@ export default function EventForm() {
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             Prix
           </label>
-          {prices.map((price, index) => (
+          {pricings.map((pricing, index) => (
             <div key={index} className="flex items-center mb-2">
               <input
                 type="text"
                 placeholder="Nom"
-                value={price.name}
+                value={pricing.name}
                 onChange={(e) =>
                   handlePriceChange(index, "name", e.target.value)
                 }
@@ -214,13 +339,13 @@ export default function EventForm() {
               <input
                 type="number"
                 placeholder="Prix"
-                value={price.price}
+                value={pricing.price}
                 onChange={(e) =>
                   handlePriceChange(index, "price", e.target.value)
                 }
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mr-2"
               />
-              {prices.length > 1 && (
+              {pricings.length > 1 && (
                 <button
                   type="button"
                   onClick={() => handleRemovePrice(index)}
@@ -240,7 +365,30 @@ export default function EventForm() {
           </button>
         </div>
 
-        <input type="hidden" id="status" value="WAITING" />
+        <input type="hidden" id="state" value="WAITING" />
+
+        <div className="mb-5">
+          <label
+            htmlFor="images"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Images
+          </label>
+          <input
+            type="file"
+            id="images"
+            multiple
+            minLength={2}
+            accept="image/*"
+            onChange={(e) =>
+              setFormData({ ...formData, images: Array.from(e.target.files) })
+            }
+            className="block w-full text-sm text-gray-900 rounded-lg cursor-pointer hover:shadow hover:bg-gray-100 bg-gray-50 file:rounded-lg file:border-none file:mr-4 file:outline-none file:p-2 file:cursor-pointer"
+          />
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
+            Sélectionnez au minimum deux images pour votre événement.
+          </p>
+        </div>
 
         <button
           type="submit"
