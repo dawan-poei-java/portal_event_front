@@ -9,8 +9,9 @@ export default function EventCardHome({ event }) {
   const textMaxSize = 3;
   const date = event.date;
   image = "https:/placehold.co/300x300";
+
   return (
-    <Link to={"/cities/" + event.city.name + "/" + event.id} className="card">
+    <Link to={"/cities/" + event.city.name + "/" + event.id}>
       <div class="card-event">
         <div class="content">
           <p class="date">{event.date}</p>

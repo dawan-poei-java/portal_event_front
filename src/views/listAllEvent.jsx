@@ -51,6 +51,10 @@ export default function ListAllEvent() {
     handleFilterEvent(allEvents);
   }, [allEvents]);
 
+  const handleChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
+
   return (
     <>
       <section className="page-container-allEvent">
@@ -62,23 +66,22 @@ export default function ListAllEvent() {
             selectedCategory={selectedCategory}
           />
           <div className="flex gap-2">
-            {allTypesEvent &&
-              allTypesEvent.map((category) => (
-                <button
-                  key={category.id}
-                  className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
-                  onClick={() => setSelectedCategory(category.name)}
-                >
-                  {category.name.charAt(0).toUpperCase() +
-                    category.name.slice(1)}
-                </button>
-              ))}
-            <button
-              className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
-              onClick={() => setSelectedCategory("Tout")}
+            <select
+              onChange={handleChange}
+              className="block w-full rounded-md border-0 px-1.5 py-1.5
+              text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300
+              focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm
+              sm:leading-6"
             >
-              Tout
-            </button>
+              <option value="Tout">Tout</option>
+              {allTypesEvent &&
+                allTypesEvent.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name.charAt(0).toUpperCase() +
+                      category.name.slice(1)}
+                  </option>
+                ))}
+            </select>
           </div>
         </div>
         {/*         <div className="flex justify-between flex-warp warp event-container-soon">

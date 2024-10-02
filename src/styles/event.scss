@@ -40,6 +40,26 @@
   padding: 0 10px;
   border-radius: 4px;
 }
+.add-cart {
+    background: linear-gradient(-90deg, #0093E9, #80D0C7);
+    background-size: 400% 400%;
+    transition: 200ms;
+    animation-play-state: paused;
+  }
+  .add-cart:hover{
+    animation: AnimationName 4s ease infinite;
+    animation-play-state: running;
+
+}
+
+@keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+
+
 .pricing-container {
   width: 100%;
   max-width: 30em;

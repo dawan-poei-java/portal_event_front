@@ -23,6 +23,7 @@ import Cart from "./views/cart";
 import Logout from "./components/logout";
 
 import { AuthProvider } from "./hooks/authProvider";
+import Admin from "./views/admin";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             <Route path={"/contact"} element={<Contact />} />
             {/* a modifier quand le back est fini */}
             <Route path={"/profileclient"} element={<ProfilClient />} />
+            <Route path={"/admin"} element={<Admin />} />
             <Route path={"/reservation"} element={<ReservationClient />} />
             <Route path={"/eventOrga"} element={<ListEventOrga />} />
             <Route path={"/allEvents"} element={<ListAllEvent />} />

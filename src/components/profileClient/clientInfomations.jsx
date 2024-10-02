@@ -6,11 +6,13 @@ export default function ClientInfomations() {
   const { data: userData } = useApi("/users/me");
   const [userDataChanged, setUserDataChanged] = useState(null);
 
+  
+
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
     console.log("first");
   };
-
+console.log(userData)
   useEffect(() => {
     setUserDataChanged(userData);
   }, [userData]);

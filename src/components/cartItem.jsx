@@ -14,14 +14,14 @@ export default function CartItem({items, handleDelete}) {
           <h5>{items.name}</h5>
           <h5>{items.price}€</h5>
         </div>
-        <div className="visiteur flex flex-col gap-5">
+        <button value={items.id} onClick={handleDelete} className="text-start w-fit text-red-400">
+          supprimer
+        </button>
+        {/* <div className="visiteur flex flex-col gap-5">
           <div className="flex justify-between">
 
           <button onClick={openInformation} className="text-start w-fit">
             Saisir les informations
-          </button>
-          <button value={items.id} onClick={handleDelete} className="text-start w-fit text-red-400">
-            supprimer
           </button>
           </div>
           <div className={isTogle ? "info":"info-hidden"}>
@@ -41,7 +41,7 @@ export default function CartItem({items, handleDelete}) {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
