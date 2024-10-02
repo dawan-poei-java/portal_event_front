@@ -80,7 +80,7 @@ export default function EventOrga() {
             </button>
             {showEventForm && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                <div className="relative p-6 bg-white rounded-lg max-h-[70vh] mt-10 overflow-y-auto">
+                <div className="relative p-6 bg-white rounded-lg max-h-[70vh] mt-10 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
                   <button
                     onClick={() => setShowEventForm(false)}
                     className="absolute text-gray-500 top-2 right-2 hover:text-gray-700"
