@@ -3,6 +3,8 @@ import "../styles/cart.scss";
 import CartItem from "../components/cartItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import { useApi } from "../hooks/useApi";
+import cartService from "../services/cart";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -12,15 +14,26 @@ export default function Cart() {
   const [invalidCode, setInvalidCode] = useState(false);
   const [cartPrice, setCartPrice] = useState(0);
   const [cartFinalPrice, setCartFinalPrice] = useState(0);
+  
+
+  
 
   function handleChange(e) {
     setInputValue(e.target.value);
   }
+
   function handleDelete(e) {
+
+
+  let delId = cartItems.filter((item) => item.id == parseInt(e.target.value));
+    cartService.removeFromCart(delId[0].id);
+
+
     const updateItems = cartItems.filter(
       (item) => item.id !== parseInt(e.target.value)
     );
     setCartItems(updateItems);
+    
   }
 
   function deleteDiscount() {
@@ -59,18 +72,7 @@ console.log(cartItems.length)
   }, [cartItems, selectedDiscountCode]); // Exécute à chaque changement de cartItems ou selectedDiscountCode
 
   useEffect(() => {
-    setCartItems([
-      { id: 1, name: "Festival de Cannes", price: 120.99, event_id: "EVT001" },
-      { id: 2, name: "Fête de la Musique", price: 0, event_id: "EVT002" },
-      { id: 3, name: "Marathon de Paris", price: 50, event_id: "EVT003" },
-      {
-        id: 4,
-        name: "Festival des Vieilles Charrues",
-        price: 90,
-        event_id: "EVT004",
-      },
-      { id: 5, name: "Fête des Lumières", price: 30, event_id: "EVT005" },
-    ]);
+    setCartItems(cartService.getCart);
     setdiscountCode([
       { id: 1, name: "SUMMER2024", discount: 20 },
       { id: 2, name: "WELCOME10", discount: 10 },
