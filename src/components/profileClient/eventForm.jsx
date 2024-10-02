@@ -25,7 +25,7 @@ export default function EventForm() {
     images: [],
   });
 
-  const { data, loading, error, sendRequest } = useApi();
+  const { sendRequest } = useApi();
 
   useEffect(() => {
     // Ici, vous devriez récupérer les typeEvents et les villes depuis votre base de données

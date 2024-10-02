@@ -1,6 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import axios from "axios";
-import { isTokenExpired } from "../middlewares/authMiddleware";
 
 const AuthContext = createContext();
 
@@ -57,10 +56,19 @@ export const AuthProvider = ({ children }) => {
     sessionStorage.clear();
   };
 
-  useEffect(() => {
-    if (!isTokenExpired()) {
+  const checkAuth = () => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
       setIsAuthenticated(true);
+      console.log("Token trouvé, utilisateur authentifié");
+    } else {
+      setIsAuthenticated(false);
+      console.log("Aucun token trouvé, utilisateur non authentifié");
     }
+  };
+
+  useEffect(() => {
+    checkAuth();
   }, []);
 
   return (

@@ -28,8 +28,8 @@ import Admin from "./views/admin";
 function App() {
   return (
     <>
-      <AuthProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
           <Helmet>
             <title>Event</title>
             <meta name="description" content="Event" />
@@ -55,8 +55,8 @@ function App() {
             <Route path="/logout" element={<Logout />} />
           </Routes>
           <Footer />
-        </BrowserRouter>
-      </AuthProvider>
+        </AuthProvider>
+      </BrowserRouter>
     </>
   );
 }

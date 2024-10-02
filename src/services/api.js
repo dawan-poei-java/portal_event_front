@@ -15,8 +15,9 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-//export const login = (email, password) => api.post('/login', { email, password });
-//export const register = (userData) => api.post('/register', userData);
+/* export const login = (email, password) =>
+  api.post("/login", { email, password });
+export const register = (userData) => api.post("/register", userData); */
 // Ajoutez d'autres méthodes API ici
 
 export default api;
