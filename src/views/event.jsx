@@ -4,10 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import "../styles/event.scss";
 import { useApi } from "../hooks/useApi";
+import cartService from "../services/cart";
 
 export default function event() {
-  const { city,eventId } = useParams();
-  const { data: event, loading, error } = useApi("/events/city/"+city+'/' + eventId);
+  const { city, eventId } = useParams();
+  const {
+    data: event,
+    loading,
+    error,
+  } = useApi("/events/city/" + city + "/" + eventId);
   const navigate = useNavigate();
   const guest = [];
   const [images, setImages] = useState(
@@ -32,24 +37,23 @@ export default function event() {
     }
   }
 
-  useEffect(()=>{
-    if (event && loading){
-      let eventFounded = event.some((item)=> item.id === eventId)
-      console.log(eventFounded)
+  useEffect(() => {
+    if (event && loading) {
+      let eventFounded = event.some((item) => item.id === eventId);
+      console.log(eventFounded);
       if (!eventFounded) {
         navigate("/not-found");
       }
+    } else if (error) {
+      navigate("/not-found");
     }
-    else if(error){
-      navigate("/not-found")
-    }
-  },[eventId, navigate,loading])
+  }, [eventId, navigate, loading]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (event) {
       setImages(event.images);
     }
-  },[loading])
+  }, [loading]);
 
   useEffect(() => {
     if (event && event.images && event.images.length > 0) {
@@ -57,6 +61,14 @@ export default function event() {
       setSelectedImg(0);
     }
   }, [event]);
+
+  console.log(event&&event.pricings)
+  const handleClick = (e) => {
+    cartService.addToCart(
+      event.pricings.find((item) => item.id == e.target.value)
+      );
+      console.log("added")
+  };
 
   return (
     <>
@@ -104,13 +116,15 @@ export default function event() {
                 </div>
                 <div className="flex justify-between">
                   <h1>{event && event.title}</h1>
-                  <p className="text-lg">
-                    organized by
-                    {" " +
-                      event.organizer.firstName +
-                      " " +
-                      event.organizer.lastName}
-                  </p>
+                  <div className="flex gap-3 items-center">
+                    <p>Organisé par</p>
+                    <p className="text-lg">
+                      {" " +
+                        event.organizer.firstName +
+                        " " +
+                        event.organizer.lastName}
+                    </p>
+                  </div>
                 </div>
                 <div className="tags-container">
                   <p className="tag">tag</p>
@@ -159,7 +173,9 @@ export default function event() {
                         >
                           <p className="w-full">{pass.name}</p>
                           <p className="text-end">{pass.price}€</p>
-                          <button className="add-cart">Ajouter</button>
+                          <button value={pass.id} className="add-cart" onClick={handleClick}>
+                            Ajouter
+                          </button>
                         </div>
                       );
                     })}
@@ -169,7 +185,7 @@ export default function event() {
               <div>
                 <h3>Prestations</h3>
                 <div>
-                  <p>
+                  {/* <p>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Laudantium enim quibusdam consequuntur rerum cum fugit,
                     error similique. Voluptas incidunt explicabo beatae at vel,
@@ -190,7 +206,7 @@ export default function event() {
                     temporibus consectetur laborum, cum iste eligendi
                     exercitationem dolore dolorem officia quod ad commodi dolor
                     natus repellendus impedit laudantium aspernatur. Officiis!
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </section>
