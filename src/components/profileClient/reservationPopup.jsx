@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import city from "../../views/city";
+import "../../styles/reservationClient.scss"
 
-export default function ReservationPopup({ reservation, setPopup }) {
+export default function ReservationPopup({ reservation, setPopup ,event}) {
 
-  const event = reservation.event
+  console.log("---------->",reservation)
   const pricing = reservation.pricing
   const user = reservation.user
   const reservationDate = new Date(
@@ -15,14 +16,14 @@ export default function ReservationPopup({ reservation, setPopup }) {
     })
   ).toLocaleDateString(); 
   const startDate = new Date(
-    reservation.event.startDate.toLocaleString("fr-FR", {
+    event.startDate.toLocaleString("fr-FR", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
     })
   ).toLocaleDateString(); 
   const endDate = new Date(
-    reservation.event.endDate.toLocaleString("fr-FR", {
+    event.endDate.toLocaleString("fr-FR", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
@@ -57,15 +58,15 @@ export default function ReservationPopup({ reservation, setPopup }) {
           <div>
             <p>{event.typeEvent.name}</p>
           </div>
-          <div className="flex justify-between">
-            <h1>{event.title}</h1>
-            <p className="text-lg">
-              {event.organizer.firstName + " " + event.organizer.lastName}
+          <div className="flex justify-between items-center">
+            <h3>{event.title}</h3>
+            <p className="">Par
+              {" " +event.organizer.firstName + " " + event.organizer.lastName}
             </p>
           </div>
-          <div className="tags-container">
+          {/* <div className="tags-container">
             <p className="tag">tag</p>
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-between w-full">
           <div className="event-location">
@@ -89,7 +90,7 @@ export default function ReservationPopup({ reservation, setPopup }) {
         <div>
           <p>{event.description}</p>
         </div>
-        <Link to={"/cities/"+event.city.name+"/"+event.id}>Voir l'event</Link>
+        <Link to={"/cities/"+event.city.name+"/"+event.id} className="text-blue-400 underline">Voir l'event</Link>
         <hr />
         <div className="">
           <p>reservation #{reservation.id}</p>

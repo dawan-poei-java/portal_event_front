@@ -77,6 +77,9 @@ export const useApi = (url, method = "GET", body = null) => {
           case "DELETE":
             response = await api.delete(newUrl, config);
             break;
+          case "GET":
+            response = await api.get(newUrl);
+            break;
           default:
             response = await api.get(newUrl, config);
         }
