@@ -73,7 +73,7 @@ export default function ListEvents({ page }) {
           <tbody>
             {filteredEvents &&
               filteredEvents.map((event ,  i) => (
-                <tr key={i} className="border-b">
+                <tr key={i} className="border-b hover:bg-gray-100 duration-150">
                   <td className="px-4 py-3">{event.id}</td>
                   <td className="px-4 py-3">{event.title}</td>
                   <td className="px-4 py-3">{event.description}</td>
@@ -84,7 +84,7 @@ export default function ListEvents({ page }) {
                     {event.organizer.firstName +" " + event.organizer.lastName}
                   </td>
                   <td className="px-4 py-3">
-                    <select name="state" id={event.id} data-value={event.id} value={event.state} className="dropdown" onChange={updateState}>
+                    <select name="state" id={event.id} data-value={event.id} value={event.state} className="dropdown bg-transparent" onChange={updateState}>
                       <option value="CANCELLED">CANCELLED</option>
                       <option value="PUBLISHED">PUBLISHED</option>
                       <option value="WAITING">WAITING</option>

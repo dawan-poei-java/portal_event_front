@@ -56,8 +56,8 @@ export default function Admin() {
         {pageSelected === "Mes Réservations" && <ClientReservations />}
         {pageSelected === "Liste des événements" && <ListEvents page={pageSelected}  />}
         {pageSelected === "Liste des utilisateurs" && <ListUsers page={pageSelected}  />}
-        {pageSelected === "Liste des catégories" && <ListGrid page={pageSelected}  />}
-        {pageSelected === "Liste des catégories" && <ListGrid page={pageSelected}  />}
+        {pageSelected === "Liste des catégories" && <ListGrid page={pageSelected} controller={"categories"}  />}
+        {pageSelected === "Liste des villes" && <ListGrid page={pageSelected} controller={"cities"} />}
       </div>
     </section>
     }
