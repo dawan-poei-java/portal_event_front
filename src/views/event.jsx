@@ -7,21 +7,29 @@ import { useApi } from "../hooks/useApi";
 import cartService from "../services/cart";
 
 export default function event() {
-  const { city, eventId } = useParams();
+  const { city, eventId } = useParams(); // Récupère les paramètres de la route comme 'city' et 'eventId'
+
+  // Utilise un hook personnalisé 'useApi' pour récupérer les données de l'événement
   const {
     data: event,
     loading,
     error,
   } = useApi("/events/city/" + city + "/" + eventId);
-  const navigate = useNavigate();
-  const guest = [];
+
+  const navigate = useNavigate(); // Hook pour naviguer entre les pages
+
+  const guest = []; // Tableau pour stocker les invités (vide ici)
+
+  // Utilise un state pour gérer les images de l'événement
   const [images, setImages] = useState(
     "https://placehold.co/1920x1080",
     "https://placehold.co/1920x1081",
     "https://placehold.co/1920x1082"
   );
+  // State pour l'image actuellement sélectionnée
   const [selectedImg, setSelectedImg] = useState(0);
 
+  // Fonction pour changer l'image dans un carrousel en remontant
   function changeImgUp() {
     if (selectedImg === images.length - 1) {
       setSelectedImg(0);
@@ -29,6 +37,8 @@ export default function event() {
       setSelectedImg(selectedImg + 1);
     }
   }
+
+  // Fonction pour changer l'image dans un carrousel en descendant
   function changeImgDown() {
     if (selectedImg <= 0) {
       setSelectedImg(images.length - 1);
@@ -37,6 +47,7 @@ export default function event() {
     }
   }
 
+  // Utilise useEffect pour vérifier si l'événement existe après que les données sont chargées
   useEffect(() => {
     if (event && loading) {
       let eventFounded = event.some((item) => item.id === eventId);
@@ -49,12 +60,14 @@ export default function event() {
     }
   }, [eventId, navigate, loading]);
 
+  // Si les données de l'événement changent, met à jour les images affichées
   useEffect(() => {
     if (event) {
       setImages(event.images);
     }
   }, [loading]);
 
+  // Utilise useEffect pour mettre à jour l'image sélectionnée lorsqu'on charge les images d'un événement
   useEffect(() => {
     if (event && event.images && event.images.length > 0) {
       setImages(event.images);
@@ -62,12 +75,14 @@ export default function event() {
     }
   }, [event]);
 
-  console.log(event&&event.pricings)
+  console.log(event && event.pricings);
+
+  // Fonction pour ajouter un billet au panier lors d'un clic sur un bouton
   const handleClick = (e) => {
     cartService.addToCart(
-      event.pricings.find((item) => item.id == e.target.value)
-      );
-      console.log("added")
+      event.pricings.find((item) => item.id == e.target.value) // Trouve le billet sélectionné et l'ajoute au panier
+    );
+    console.log("added");
   };
 
   return (
@@ -173,7 +188,11 @@ export default function event() {
                         >
                           <p className="w-full">{pass.name}</p>
                           <p className="text-end">{pass.price}€</p>
-                          <button value={pass.id} className="add-cart" onClick={handleClick}>
+                          <button
+                            value={pass.id}
+                            className="add-cart"
+                            onClick={handleClick}
+                          >
                             Ajouter
                           </button>
                         </div>
