@@ -1,20 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import ReservationPopup from './reservationPopup';
-import { useApi } from '../../hooks/useApi';
+import React, { useEffect, useState } from "react";
+import ReservationPopup from "./reservationPopup";
+import { useApi } from "../../hooks/useApi";
 
 export default function ClientReservations() {
+  const { sendRequest } = useApi();
 
-  const { data: reservations,loading } = useApi("/reservations/user/"+ sessionStorage.getItem("userId")
-  );
-    const [clickedReservation, setClickedReservation] = useState()
-    const [popup,setPopup] =useState(false);
-    const isOpen = (e) =>{
-      setClickedReservation(reservations.find((item)=>item.id == e.target.value))
+  const [reservations, setReservations] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState();
+  const [selectedReservation, setSelectedReservation] = useState();
 
-        setPopup(true)
+  const [popup, setPopup] = useState(false);
+
+  //Récupère la réservation et l'event - puis ouvre la popup
+  const isOpen = async (e) => {
+    let res = reservations.find((item) => item.id == e.target.value);
+    const event = await sendRequest("events/" + res.pricing.event.id, "GET");
+    setSelectedReservation(res);
+    setSelectedEvent(event);
+    console.log("event", event);
+    setPopup(true);
+  };
+
+  //Récupère les infos de l'user et ses réservaiton depuis la BDD
+  useEffect(() => {
+    async function fetchReservation() {
+      const me = await sendRequest("/users/me", "GET");
+      const response = await sendRequest("/reservations/user/" + me.id, "GET");
+
+      setReservations(response);
     }
+    fetchReservation();
+  }, []);
 
-
+  console.log("----------", reservations);
 
   return (
     <>
@@ -23,20 +41,18 @@ export default function ClientReservations() {
         className="page-container-profile  grid gap-10"
       >
         <h2>Mes réservations</h2>
-        <table className="table" border="1">
-          <thead>
-            <tr className="heading-row">
-              <th>Intitullé</th>
-              <th>Prix (€)</th>
-              <th>Date</th>
-              <th>Billet</th>
-            </tr>
+        <table className="w-full text-sm text-left text-gray-500" border="1">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+            <th className="px-4 py-3">Intitullé</th>
+            <th className="px-4 py-3">Prix (€)</th>
+            <th className="px-4 py-3">Date</th>
+            <th className="px-4 py-3">Billet</th>
           </thead>
           <tbody>
             {reservations &&
-              reservations.map((e) => {
+              reservations.map((res) => {
                 const formattedDate = new Date(
-                  e.date.toLocaleString("fr-FR", {
+                  res.date.toLocaleString("fr-FR", {
                     day: "2-digit",
                     month: "2-digit",
                     year: "numeric",
@@ -44,14 +60,18 @@ export default function ClientReservations() {
                     minute: "2-digit",
                   })
                 ).toLocaleString();
-                console.log("date",formattedDate)
+                console.log("date", formattedDate);
                 return (
-                  <tr key={e.id} className="body-row">
-                    <td>{e.event.title}</td>
-                    <td>{e.pricing.price}</td>
-                    <td>{formattedDate}</td>
-                    <td>
-                      <button value={e.id} className="table-popup" onClick={isOpen}>
+                  <tr key={res.id} className="border-b">
+                    <td className="px-4 py-3">{res.pricing.name}</td>
+                    <td className="px-4 py-3">{res.pricing.price}</td>
+                    <td className="px-4 py-3">{formattedDate}</td>
+                    <td className="px-4 py-3">
+                      <button
+                        value={res.id}
+                        className="table-popup text-blue-400 underline"
+                        onClick={isOpen}
+                      >
                         Voir
                       </button>
                     </td>
@@ -60,7 +80,13 @@ export default function ClientReservations() {
               })}
           </tbody>
         </table>
-        {popup && <ReservationPopup reservation={clickedReservation} setPopup={setPopup} />}
+        {popup && (
+          <ReservationPopup
+            reservation={selectedReservation}
+            setPopup={setPopup}
+            event={selectedEvent}
+          />
+        )}
       </div>
     </>
   );
