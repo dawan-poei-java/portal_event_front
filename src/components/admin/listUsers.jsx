@@ -38,11 +38,11 @@ export default function ListUsers({ req, page }) {
                 {heading}
               </th>
             ))}
-            <th className="border border-gray-300 p-2 bg-gray-200">Actions</th>
+            {/* <th className="border border-gray-300 p-2 bg-gray-200">Actions</th> */}
           </tr>
         </thead>
         <tbody>
-          {users.map((user, index) => (
+          {users && users.map((user, index) => (
             <tr key={index} className="hover:bg-gray-100">
               <td className="border border-gray-300 p-2 sticky border bg-white left-0">
                 {user.id}
@@ -60,10 +60,10 @@ export default function ListUsers({ req, page }) {
               <td className="border border-gray-300 p-2">{user.createdAt}</td>
               <td className="border border-gray-300 p-2">{user.role}</td>
               <td className="border border-gray-300 p-2">{user.birthDate}</td>
-              <td className="flex gap-4 border border-gray-300 p-2">
+              {/* <td className="flex gap-4 border border-gray-300 p-2">
                 <button className="p-1 rounded bg-yellow-400">Modifier</button>
                 <button className="p-1 rounded bg-red-400">Supprimer</button>
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>

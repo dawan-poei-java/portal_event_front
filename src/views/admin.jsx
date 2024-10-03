@@ -47,17 +47,15 @@ export default function Admin() {
     <section className="page-container-client">
       <div className="sideBar">
         <SideBar listButton={listBtn} setPageSelected={setPageSelected} />
-        <Link className="" to={"/logout"}>
-          Se déconnecter
-        </Link>
+        
       </div>
       <div className="main-container">
         {pageSelected === "Mes informations" && <ClientInfomations />}
         {pageSelected === "Mes Réservations" && <ClientReservations />}
         {pageSelected === "Liste des événements" && <ListEvents page={pageSelected}  />}
         {pageSelected === "Liste des utilisateurs" && <ListUsers page={pageSelected}  />}
-        {pageSelected === "Liste des catégories" && <ListGrid page={pageSelected}  />}
-        {pageSelected === "Liste des catégories" && <ListGrid page={pageSelected}  />}
+        {pageSelected === "Liste des catégories" && <ListGrid page={pageSelected} controller={"categories"}  />}
+        {pageSelected === "Liste des villes" && <ListGrid page={pageSelected} controller={"cities"} />}
       </div>
     </section>
     }
