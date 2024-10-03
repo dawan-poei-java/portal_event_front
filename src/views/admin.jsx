@@ -47,9 +47,7 @@ export default function Admin() {
     <section className="page-container-client">
       <div className="sideBar">
         <SideBar listButton={listBtn} setPageSelected={setPageSelected} />
-        <Link className="" to={"/logout"}>
-          Se déconnecter
-        </Link>
+        
       </div>
       <div className="main-container">
         {pageSelected === "Mes informations" && <ClientInfomations />}
