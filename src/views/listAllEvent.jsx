@@ -13,32 +13,7 @@ export default function ListAllEvent() {
     loadingTypeEvent,
     errorTypeEvent,
   } = useApi("/typeEvents");
-  /* const allEvents = [
-    {
-      id: 1,
-      title: "Atelier de peinture",
-      category: "Spectacle",
-      description: "description",
-    },
-    {
-      id: 2,
-      title: "Concert de Jazz",
-      category: "Concert",
-      description: "description",
-    },
-    {
-      id: 3,
-      title: "Exposition d'Art Moderne",
-      category: "Exposition",
-      description: "description",
-    },
-    {
-      id: 4,
-      title: "Concert de Rock",
-      category: "Concert",
-      description: "description",
-    },
-  ]; */
+ 
 
   const [selectedCategory, setSelectedCategory] = useState("Tout");
   const [filteredEvents, setFilteredEvents] = useState(allEvents);
@@ -57,9 +32,9 @@ export default function ListAllEvent() {
 
   return (
     <>
-      <section className="page-container-allEvent">
+      <section className="page-container-allEvent pb-10">
         <h2>Tous les évènements</h2>
-        <div className="flex justify-between mb-16">
+        <div className="flex justify-between mb-16 ">
           <SearchFilter
             eventsData={allEvents}
             onFilter={handleFilterEvent}

@@ -182,10 +182,10 @@ export default function event() {
                   </div>
                 </div>
               </div>
-              <div>
+              {/* <div>
                 <h3>Prestations</h3>
                 <div>
-                  {/* <p>
+                  <p>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Laudantium enim quibusdam consequuntur rerum cum fugit,
                     error similique. Voluptas incidunt explicabo beatae at vel,
@@ -206,9 +206,9 @@ export default function event() {
                     temporibus consectetur laborum, cum iste eligendi
                     exercitationem dolore dolorem officia quod ad commodi dolor
                     natus repellendus impedit laudantium aspernatur. Officiis!
-                  </p> */}
+                  </p>
                 </div>
-              </div>
+              </div> */}
             </section>
           )}
         </>

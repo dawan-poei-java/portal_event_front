@@ -1,7 +1,7 @@
 *{
     font-family: "Inter", sans-serif;
 }
-#body{
+#body, html{
   height: 100vh;
 }
 
@@ -38,8 +38,12 @@ $headerHeight : 120px;
     max-width: 60em;
     margin: auto;
     padding-bottom: 8em;
+    min-height: 79.8vh;
+    display: flex;
+    flex-direction: column;
 }
 .page-container-profile{
+  padding-top: 6em;
     //padding-top: calc($headerHeight + 8em);
     max-width: 53.5em;
     margin: auto;
