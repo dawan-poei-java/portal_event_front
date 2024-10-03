@@ -9,8 +9,8 @@ export default function ListEvents({ page }) {
 
    const updateState = async (e) => {
      const eventId = e.target.getAttribute("data-value"); // Récupérer l'id de l'événement
+     const updatedEvent = events.find((item)=>item.id === parseInt(eventId))
      const newState = e.target.value; // Récupérer la nouvelle valeur de l'état
-
      // Mettre à jour l'état localement
      setFilteredEvents((prevEvents) =>
        prevEvents.map((event) =>
@@ -20,20 +20,16 @@ export default function ListEvents({ page }) {
 
      // Envoyer la requête à l'API pour mettre à jour la BDD
      try {
-      let data = JSON.stringify({ state: newState });
-       const response = await sendRequest("events","POST",data)
-
-       if (!response.ok) {
-         throw new Error("Erreur lors de la mise à jour de l'état.");
-       }
+      let data = { ...updatedEvent, state: newState };
+      console.log(data)
+       const response = await sendRequest("events/"+eventId,"PUT",data)
+      
 
        console.log("État mis à jour avec succès.");
      } catch (error) {
        console.error("Erreur:", error);
      }
    };
-
-   console.log(filteredEvents && filteredEvents[0]);
 
   const handleChange = e =>{
     if (e.target.value =="ALL"){

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function CartItem({items, handleDelete}) {
+export default function CartItem({items, handleDelete, index}) {
   const [isTogle, setIsToggle] = useState(false);
 
   function openInformation() {
@@ -9,12 +9,12 @@ export default function CartItem({items, handleDelete}) {
   
   return (
     <>
-      <div key={items.id} className="cart-item">
+      <div key={index} className="cart-item">
         <div className="flex justify-between">
           <h5>{items.name}</h5>
           <h5>{items.price}€</h5>
         </div>
-        <button value={items.id} onClick={handleDelete} className="text-start w-fit text-red-400">
+        <button value={index} onClick={handleDelete} className="text-start w-fit text-red-400">
           supprimer
         </button>
         {/* <div className="visiteur flex flex-col gap-5">
