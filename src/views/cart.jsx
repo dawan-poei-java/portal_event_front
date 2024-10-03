@@ -4,7 +4,9 @@ import CartItem from "../components/cartItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { useApi } from "../hooks/useApi";
+
 import cartService from "../services/cart";
+import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -13,20 +15,22 @@ export default function Cart() {
   const [inputValue, setInputValue] = useState("");
   const [invalidCode, setInvalidCode] = useState(false);
   const [cartPrice, setCartPrice] = useState(0);
+  const { sendRequest } = useApi();
   const [cartFinalPrice, setCartFinalPrice] = useState(0);
+  const { data: me } = useApi("/users/me");
+  const navigate = useNavigate();
 
   function handleChange(e) {
     setInputValue(e.target.value);
   }
 
   function handleDelete(e) {
-    let delId = cartItems.filter((item) => item.id == parseInt(e.target.value));
-    cartService.removeFromCart(delId[0].id);
+    let index = e.target.value; // Récupérer l'index de l'élément à supprimer
+    const updatedCartItems = cartItems.filter((_, i) => i !== parseInt(index)); // Filtrer l'élément supprimé
+    setCartItems(updatedCartItems); // Mettre à jour l'état du panier
+    cartService.removeFromCart(cartItems[index].id); // Appeler le service pour supprimer l'élément du panier
 
-    const updateItems = cartItems.filter(
-      (item) => item.id !== parseInt(e.target.value)
-    );
-    setCartItems(updateItems);
+    console.log("Élément supprimé:", cartItems[index].name);
   }
 
   function deleteDiscount() {
@@ -47,7 +51,31 @@ export default function Cart() {
     }
   }
 
-  console.log(cartItems.length);
+  async function validateCart() {
+    if (cartItems) {
+      try {
+        console.log(cartItems);
+        for (let item of cartItems) {
+          console.log("--------->", item);
+          await sendRequest("/reservations", "POST", {
+            user: {
+              id: me.id,
+            },
+            pricing: {
+              id: item.id,
+            },
+          });
+        }
+        cartService.clearCart();
+        setCartItems([]);
+        navigate("/cart/confirmedReservation");
+      } catch (error) {
+        navigate("/login");
+      }
+    }
+  }
+
+  //console.log(cartItems.length);
   useEffect(() => {
     if (cartItems) {
       let sum = cartItems.reduce((acc, item) => acc + item.price, 0); // Somme des prix des items
@@ -80,8 +108,10 @@ export default function Cart() {
       <div className="split">
         <div className="flex flex-col gap-4 p-4 item-list">
           {cartItems.length > 0 ? (
-            cartItems.map((item) => {
-              return <CartItem items={item} handleDelete={handleDelete} />;
+            cartItems.map((item, i) => {
+              return (
+                <CartItem items={item} index={i} handleDelete={handleDelete} />
+              );
             })
           ) : (
             <h1>Panier vide</h1>
@@ -143,7 +173,10 @@ export default function Cart() {
               </div>
             </div>
 
-            <button className="w-full py-1 text-white bg-black rounded-full">
+            <button
+              onClick={validateCart}
+              className="w-full py-1 text-white bg-black rounded-full"
+            >
               Valider et payer
             </button>
           </div>

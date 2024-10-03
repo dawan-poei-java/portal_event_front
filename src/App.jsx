@@ -20,6 +20,7 @@ import Footer from "./components/footer";
 import Auth from "./views/auth";
 
 import Cart from "./views/cart";
+import ConfirmedReservation from "./views/confirmedReservation";
 import Logout from "./components/logout";
 
 import { AuthProvider } from "./hooks/authProvider";
@@ -53,6 +54,10 @@ function App() {
             <Route path={"/cart"} element={<Cart />} />
             <Route path={"/login"} element={<Auth />} />
             <Route path="/logout" element={<Logout />} />
+            <Route
+              path={"/cart/confirmedReservation"}
+              element={<ConfirmedReservation />}
+            />
           </Routes>
           <Footer />
         </AuthProvider>

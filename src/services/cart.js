@@ -19,8 +19,8 @@ const cartService = {
     setStoredCart(cart);
   },
 
-  removeFromCart: (itemId) => {
-    cart = cart.filter((item) => item.id !== itemId);
+  removeFromCart: (index) => {
+    cart.pop(index);
     setStoredCart(cart);
   },
 

@@ -20,9 +20,6 @@ export default function SideBar({ listButton, setPageSelected }) {
           Événements organisateur
         </button>
       )}
-      <Link className="flex items-center justify-center" to={"/logout"}>
-        Se déconnecter
-      </Link>
     </div>
   );
 }
