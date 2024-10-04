@@ -1,0 +1,26 @@
+#client-reservation{
+    padding-top: 4em;
+}
+
+
+.table{
+    border: 1px solid;
+    width: 100%;
+    .body-row{
+        border-top: 1px solid;
+    }
+    .body-row td{
+        padding: 8px 1em;
+    }
+    .heading-row th{
+        text-align: start;
+        padding: 1em;
+    }
+    .table-popup{
+        border-radius: 4px;
+        padding: 0 2em;
+        background-color: rgb(250, 192, 75);
+    }
+    
+}
+

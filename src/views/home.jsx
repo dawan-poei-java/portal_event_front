@@ -1,15 +1,33 @@
-import {React, useState } from 'react'
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { faX } from "@fortawesome/free-solid-svg-icons";
-
-
+import { React, useEffect, useState } from "react";
+import "../styles/listAllEvent.scss";
+import "../styles/home.scss";
+import EventGrid from "../components/eventGrid";
+import { useApi } from "../hooks/useApi";
+import PopularEventCard from "../components/popularEventCard";
 
 export default function home() {
-
-    
+  const { data: events } = useApi("/events/upcoming");
+  const { data: popularEvent } = useApi("/events/popular");
   return (
-    <div className='text-3xl font-bold underline'>home</div>
-  )
+    <>
+      <section className="page-container">
+        <div className="grid w-full gap-16">
+          <div className="mt-30">
+            <h2>À la une</h2>
+            <PopularEventCard event={popularEvent} />
+          </div>
+
+          <div>
+            {events && (
+              <EventGrid
+                title={"Prochainement"}
+                listeElement={events}
+                size={8}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }

@@ -1,0 +1,66 @@
+@import "./variables.scss";
+
+#event {
+  padding-top: 6em;
+}
+.blank{height:  $headerHeight;}
+.event-banner {
+
+  width: 100%;
+  height: 450px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 3em;
+  justify-content: space-between;
+}
+
+.tags-container {
+  .tag {
+    padding: 0 10px;
+    border: solid 1px;
+    width: fit-content;
+    border-radius: 30px;
+  }
+}
+.event-location {
+  font-size: $fs-md;
+}
+.event-date,
+#location {
+  font-size: $fs-lg;
+}
+.add-cart {
+  color: white;
+  background-color: rgb(12, 95, 251);
+  justify-content: end;
+  width: fit-content;
+  padding: 0 10px;
+  border-radius: 4px;
+}
+.add-cart {
+    background: linear-gradient(-90deg, #0093E9, #80D0C7);
+    background-size: 400% 400%;
+    transition: 200ms;
+    animation-play-state: paused;
+  }
+  .add-cart:hover{
+    animation: AnimationName 4s ease infinite;
+    animation-play-state: running;
+
+}
+
+@keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+
+
+.pricing-container {
+  width: 100%;
+  max-width: 30em;
+}
