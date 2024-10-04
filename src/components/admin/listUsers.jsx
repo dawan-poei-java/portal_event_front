@@ -27,14 +27,11 @@ export default function ListUsers({ req, page }) {
   return (
     <div id="grid" className="page-container-profile grid gap-10">
       <h3>{page}</h3>
-      <table>
-        <thead>
+      <table className="w-full text-sm text-left text-gray-500">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
             {headings.map((heading, index) => (
-              <th
-                key={index}
-                className="border border-gray-300 p-2 bg-gray-200"
-              >
+              <th key={index} className="px-4 py-3">
                 {heading}
               </th>
             ))}
@@ -42,30 +39,31 @@ export default function ListUsers({ req, page }) {
           </tr>
         </thead>
         <tbody>
-          {users && users.map((user, index) => (
-            <tr key={index} className="hover:bg-gray-100">
-              <td className="border border-gray-300 p-2 sticky border bg-white left-0">
-                {user.id}
-              </td>
-              <td className="border border-gray-300 p-2">{user.firstName}</td>
-              <td className="border border-gray-300 p-2">{user.lastName}</td>
-              <td className="border border-gray-300 p-2">{user.email}</td>
-              <td className="border border-gray-300 p-2">{user.phoneNumber}</td>
-              <td className="border border-gray-300 p-2">{user.address}</td>
-              <td className="border border-gray-300 p-2">
-                {user.addressComplement}
-              </td>
-              <td className="border border-gray-300 p-2">{user.city.name}</td>
-              <td className="border border-gray-300 p-2">{user.zipCode}</td>
-              <td className="border border-gray-300 p-2">{user.createdAt}</td>
-              <td className="border border-gray-300 p-2">{user.role}</td>
-              <td className="border border-gray-300 p-2">{user.birthDate}</td>
-              {/* <td className="flex gap-4 border border-gray-300 p-2">
+          {users &&
+            users.map((user, index) => (
+              <tr key={index} className="hover:bg-gray-100 duration-150">
+                <td className="px-4 py-3">{user.id}</td>
+                <td className="px-4 py-3">{user.firstName}</td>
+                <td className="px-4 py-3">{user.lastName}</td>
+                <td className="px-4 py-3">{user.email}</td>
+                <td className="px-4 py-3">
+                  {user.phoneNumber}
+                </td>
+                <td className="px-4 py-3">{user.address}</td>
+                <td className="px-4 py-3">
+                  {user.addressComplement}
+                </td>
+                <td className="px-4 py-3">{user.city.name}</td>
+                <td className="px-4 py-3">{user.zipCode}</td>
+                <td className="px-4 py-3">{user.createdAt}</td>
+                <td className="px-4 py-3">{user.role}</td>
+                <td className="px-4 py-3">{user.birthDate}</td>
+                {/* <td className="flex gap-4 border border-gray-300 p-2">
                 <button className="p-1 rounded bg-yellow-400">Modifier</button>
                 <button className="p-1 rounded bg-red-400">Supprimer</button>
               </td> */}
-            </tr>
-          ))}
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

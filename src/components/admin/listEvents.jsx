@@ -51,14 +51,19 @@ export default function ListEvents({ page }) {
   return (
     <div id="grid-event" className="page-container-profile  grid gap-10">
       <h3>{page}</h3>
-      <select name="filterStatus" id="filter" onChange={handleChange}>
+      <select
+        className="w-fit bg-gray-100 px-3 py-2 rounded"
+        name="filterStatus"
+        id="filter"
+        onChange={handleChange}
+      >
         <option value="ALL">Filtrer</option>
         <option value="CANCELLED">CANCELLED</option>
         <option value="PUBLISHED">PUBLISHED</option>
         <option value="WAITING">WAITING</option>
       </select>
-      
-      <div className="overflow-x-auto w-full">
+
+      <div className="overflow-x-auto w-full text-sm text-left text-gray-500">
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <th className="px-4 py-3">id</th>
@@ -72,7 +77,7 @@ export default function ListEvents({ page }) {
           </thead>
           <tbody>
             {filteredEvents &&
-              filteredEvents.map((event ,  i) => (
+              filteredEvents.map((event, i) => (
                 <tr key={i} className="border-b hover:bg-gray-100 duration-150">
                   <td className="px-4 py-3">{event.id}</td>
                   <td className="px-4 py-3">{event.title}</td>
@@ -81,10 +86,17 @@ export default function ListEvents({ page }) {
                   <td className="px-4 py-3">{event.location}</td>
                   <td className="px-4 py-3">{event.city.name}</td>
                   <td className="px-4 py-3">
-                    {event.organizer.firstName +" " + event.organizer.lastName}
+                    {event.organizer.firstName + " " + event.organizer.lastName}
                   </td>
                   <td className="px-4 py-3">
-                    <select name="state" id={event.id} data-value={event.id} value={event.state} className="dropdown bg-transparent" onChange={updateState}>
+                    <select
+                      name="state"
+                      id={event.id}
+                      data-value={event.id}
+                      value={event.state}
+                      className="dropdown bg-transparent"
+                      onChange={updateState}
+                    >
                       <option value="CANCELLED">CANCELLED</option>
                       <option value="PUBLISHED">PUBLISHED</option>
                       <option value="WAITING">WAITING</option>
